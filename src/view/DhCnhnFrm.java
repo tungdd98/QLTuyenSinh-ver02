@@ -59,6 +59,11 @@ public class DhCnhnFrm extends javax.swing.JFrame {
         btnQLDiemTuyenSinh.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
         btnQLDiemTuyenSinh.setText("Quản lý điểm tuyển sinh");
         btnQLDiemTuyenSinh.setToolTipText("");
+        btnQLDiemTuyenSinh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnQLDiemTuyenSinhActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -104,6 +109,11 @@ public class DhCnhnFrm extends javax.swing.JFrame {
         new NganhThiFrm().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnQLNganhThiActionPerformed
+
+    private void btnQLDiemTuyenSinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQLDiemTuyenSinhActionPerformed
+        new DiemTuyenSinhFrm().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnQLDiemTuyenSinhActionPerformed
 
     /**
      * @param args the command line arguments
