@@ -1,11 +1,11 @@
 package view;
 
-import controller.DiemThiDAO;
+import controller.NganhThiDAO;
 import controller.ThiSinhDAO;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import entity.DiemThi;
+import entity.NganhThi;
 import entity.ThiSinh;
 import java.text.SimpleDateFormat;
 
@@ -13,22 +13,22 @@ import java.text.SimpleDateFormat;
  *
  * @author tungdd
  */
-public class ThiSinhFrm extends javax.swing.JFrame {
+public class NganhThiFrm extends javax.swing.JFrame {
 
-    private final String[] header = {"STT", "Mã thí sinh", "Họ tên", "Ngày sinh", "Giới tính", "CMND", "Dân tộc", "Số điện thoại", "Quê quán"};
-    private ArrayList<ThiSinh> items = new ArrayList<>();
+    private final String[] header = {"STT", "Mã ngành", "Tên ngành"};
+    private ArrayList<NganhThi> items = new ArrayList<>();
     private int selectedIndex;
     DefaultTableModel model;
 
     /**
      * Creates new form ThiSinhFrm
      */
-    public ThiSinhFrm() {
+    public NganhThiFrm() {
         initComponents();
         setLocationRelativeTo(null);
 
-        items = new ThiSinhDAO().getListItem();
-        model = (DefaultTableModel) tblThiSinh.getModel();
+        items = new NganhThiDAO().getListItem();
+        model = (DefaultTableModel) tblNganhThi.getModel();
         model.setColumnIdentifiers(header);
         showTable();
     }
@@ -38,9 +38,9 @@ public class ThiSinhFrm extends javax.swing.JFrame {
      */
     public void showTable() {
         model.setRowCount(0);
-        for (ThiSinh ts : items) {
+        for (NganhThi ts : items) {
             model.addRow(new Object[]{
-                model.getRowCount() + 1, ts.getMaThiSinh(), ts.getHoTen(), new SimpleDateFormat("dd/MM/yyyy").format(ts.getNgaySinh()), ts.getGioiTinh(), ts.getCMND(), ts.getDanToc(), ts.getSoDienThoai(), ts.getQueQuan()
+                model.getRowCount() + 1, ts.getMaNganh(), ts.getTenNganh()
             });
         }
     }
@@ -49,8 +49,8 @@ public class ThiSinhFrm extends javax.swing.JFrame {
      * Thêm mới vào arraylist
      * @param ts 
      */
-    public void addItem(ThiSinh ts) {
-        items.add(ts);
+    public void addItem(NganhThi item) {
+        items.add(item);
         showTable();
     }
     
@@ -58,9 +58,9 @@ public class ThiSinhFrm extends javax.swing.JFrame {
      * Cập nhật vào arraylist
      * @param ts 
      */
-    public void updateItem(ThiSinh ts) {
+    public void updateItem(NganhThi item) {
         items.remove(selectedIndex);
-        items.add(ts);
+        items.add(item);
         showTable();
     }
 
@@ -79,18 +79,15 @@ public class ThiSinhFrm extends javax.swing.JFrame {
         btnAddNew = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
-        btnScore = new javax.swing.JButton();
-        cbFilter = new javax.swing.JComboBox<>();
-        btnSearch = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblThiSinh = new javax.swing.JTable();
+        tblNganhThi = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Quản lý thí sinh");
 
         jLabel1.setFont(new java.awt.Font("Consolas", 1, 16)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Quản lý thí sinh");
+        jLabel1.setText("Quản lý ngành thi");
 
         btnBackHome.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
         btnBackHome.setText("Trang chủ");
@@ -126,22 +123,7 @@ public class ThiSinhFrm extends javax.swing.JFrame {
             }
         });
 
-        btnScore.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
-        btnScore.setText("Điểm thi");
-        btnScore.setEnabled(false);
-        btnScore.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnScoreActionPerformed(evt);
-            }
-        });
-
-        cbFilter.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
-        cbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã thí sinh", "Họ và tên", "CMND" }));
-
-        btnSearch.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
-        btnSearch.setText("Tìm kiếm");
-
-        tblThiSinh.setModel(new javax.swing.table.DefaultTableModel(
+        tblNganhThi.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -149,12 +131,12 @@ public class ThiSinhFrm extends javax.swing.JFrame {
 
             }
         ));
-        tblThiSinh.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblNganhThi.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblThiSinhMouseClicked(evt);
+                tblNganhThiMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblThiSinh);
+        jScrollPane1.setViewportView(tblNganhThi);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -169,12 +151,7 @@ public class ThiSinhFrm extends javax.swing.JFrame {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(cbFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnScore, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -195,10 +172,7 @@ public class ThiSinhFrm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddNew, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnScore, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(24, 24, 24)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE))
         );
@@ -233,7 +207,7 @@ public class ThiSinhFrm extends javax.swing.JFrame {
      * @param evt 
      */
     private void btnAddNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddNewActionPerformed
-        ThiSinhFormFrm form = new ThiSinhFormFrm(this, rootPaneCheckingEnabled);
+        NganhThiFormFrm form = new NganhThiFormFrm(this, rootPaneCheckingEnabled);
         form.setVisible(true);
     }//GEN-LAST:event_btnAddNewActionPerformed
 
@@ -242,12 +216,12 @@ public class ThiSinhFrm extends javax.swing.JFrame {
      * @param evt 
      */
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        selectedIndex = tblThiSinh.getSelectedRow();
+        selectedIndex = tblNganhThi.getSelectedRow();
 
         if (selectedIndex == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn thí sinh cần nhập điểm");
         } else {
-            ThiSinhFormFrm form = new ThiSinhFormFrm(this, rootPaneCheckingEnabled);
+            NganhThiFormFrm form = new NganhThiFormFrm(this, rootPaneCheckingEnabled);
             form.getSelectedItem(true, items.get(selectedIndex));
             form.setVisible(true);
         }
@@ -257,26 +231,25 @@ public class ThiSinhFrm extends javax.swing.JFrame {
      * Sự kiện hiển thị dữ liệu khi bấm vào hàng trong bảng
      * @param evt 
      */
-    private void tblThiSinhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblThiSinhMouseClicked
+    private void tblNganhThiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNganhThiMouseClicked
         btnUpdate.setEnabled(true);
         btnDelete.setEnabled(true);
-        btnScore.setEnabled(true);
 
-    }//GEN-LAST:event_tblThiSinhMouseClicked
+    }//GEN-LAST:event_tblNganhThiMouseClicked
 
     /**
      * Sự kiện xoá phần tử
      * @param evt 
      */
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        int removeIndex = tblThiSinh.getSelectedRow();
+        int removeIndex = tblNganhThi.getSelectedRow();
 
         if (removeIndex == -1) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn thí sinh cần xoá");
         } else {
             int isDelete = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xoá?");
             if (isDelete == 0) {
-                if (new ThiSinhDAO().deleteItem(items.get(removeIndex))) {
+                if (new NganhThiDAO().deleteItem(items.get(removeIndex))) {
                     items.remove(removeIndex);
                     JOptionPane.showMessageDialog(this, "Xoá thành công!");
                     showTable();
@@ -287,26 +260,6 @@ public class ThiSinhFrm extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnDeleteActionPerformed
-
-    /**
-     * Sự kiện xem điểm
-     * @param evt 
-     */
-    private void btnScoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnScoreActionPerformed
-        selectedIndex = tblThiSinh.getSelectedRow();
-
-        if (selectedIndex == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn thí sinh cần nhập điểm");
-        } else {
-            String maThiSinh = items.get(selectedIndex).getMaThiSinh();
-            DiemThiFormFrm form = new DiemThiFormFrm(this, rootPaneCheckingEnabled);
-
-            ArrayList<DiemThi> listScore = new DiemThiDAO().getListItem(maThiSinh);
-            form.setData(listScore, maThiSinh);
-            form.setVisible(true);
-        }
-
-    }//GEN-LAST:event_btnScoreActionPerformed
 
     /**
      * @param args the command line arguments
@@ -325,20 +278,21 @@ public class ThiSinhFrm extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ThiSinhFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NganhThiFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ThiSinhFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NganhThiFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ThiSinhFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NganhThiFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ThiSinhFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(NganhThiFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ThiSinhFrm().setVisible(true);
+                new NganhThiFrm().setVisible(true);
             }
         });
     }
@@ -347,13 +301,10 @@ public class ThiSinhFrm extends javax.swing.JFrame {
     private javax.swing.JButton btnAddNew;
     private javax.swing.JButton btnBackHome;
     private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnScore;
-    private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JComboBox<String> cbFilter;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblThiSinh;
+    private javax.swing.JTable tblNganhThi;
     // End of variables declaration//GEN-END:variables
 }
