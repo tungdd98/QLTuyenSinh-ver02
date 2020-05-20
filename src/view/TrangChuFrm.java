@@ -116,7 +116,11 @@ public class TrangChuFrm extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    /**
+     * Gọi giao diện QL thí sinh
+     * @param evt 
+     */
     private void btnQLThiSinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQLThiSinhActionPerformed
         new ThiSinhFrm().setVisible(true);
         this.dispose();
@@ -127,7 +131,8 @@ public class TrangChuFrm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnBanTSActionPerformed
 
     private void btnDHCNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDHCNActionPerformed
-        // TODO add your handling code here:
+        new DhCnhnFrm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnDHCNActionPerformed
 
     private void btnXemDiemTSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXemDiemTSActionPerformed

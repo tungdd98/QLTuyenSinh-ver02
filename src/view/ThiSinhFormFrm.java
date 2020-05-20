@@ -15,7 +15,7 @@ import entity.ThiSinh;
 
 /**
  *
- * @author ASUS-S510
+ * @author tungdd
  */
 public class ThiSinhFormFrm extends javax.swing.JDialog {
 
@@ -32,6 +32,9 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
         home = (ThiSinhFrm) parent;
     }
 
+    /**
+     * Làm mới dữ liệu
+     */
     public void resetForm() {
         txtMaThiSinh.setText("");
         txtHoTen.setText("");
@@ -43,6 +46,11 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
         cbGioiTinh.setSelectedItem(0);
     }
     
+    /**
+     * Lấy dữ liệu từ phần tử được chọn
+     * @param edit
+     * @param ts 
+     */
     public void getSelectedItem(boolean edit, ThiSinh ts) {
         isEdit = edit;
         
@@ -52,11 +60,9 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
         txtDanToc.setText(ts.getDanToc());
         txtSoDienThoai.setText(ts.getSoDienThoai());
         txtQueQuan.setText(ts.getQueQuan());
-        txtNgaySinh.setText("" + ts.getNgaySinh());
+        txtNgaySinh.setText("" + new SimpleDateFormat("dd/MM/yyyy").format(ts.getNgaySinh()));
         txtCMND.setText(ts.getCMND());
         cbGioiTinh.setSelectedItem("" + ts.getGioiTinh());
-        
-        System.out.println(ts.getMaThiSinh());
     }
 
     /**
@@ -83,10 +89,10 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
         lbQueQuan = new javax.swing.JLabel();
         txtQueQuan = new javax.swing.JTextField();
         cbGioiTinh = new javax.swing.JComboBox<>();
-        btnLuu = new javax.swing.JButton();
-        btnDong = new javax.swing.JButton();
+        btnSave = new javax.swing.JButton();
+        btnClose = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
-        txtNgaySinh = new javax.swing.JFormattedTextField();
+        txtNgaySinh = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Thông tin thí sinh");
@@ -119,26 +125,24 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
         cbGioiTinh.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
         cbGioiTinh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nam", "Nữ" }));
 
-        btnLuu.setText("Lưu lại");
-        btnLuu.addActionListener(new java.awt.event.ActionListener() {
+        btnSave.setText("Lưu lại");
+        btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLuuActionPerformed(evt);
+                btnSaveActionPerformed(evt);
             }
         });
 
-        btnDong.setText("Đóng");
-        btnDong.setToolTipText("");
-        btnDong.addActionListener(new java.awt.event.ActionListener() {
+        btnClose.setText("Đóng");
+        btnClose.setToolTipText("");
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnDongActionPerformed(evt);
+                btnCloseActionPerformed(evt);
             }
         });
 
         jLabel9.setFont(new java.awt.Font("Consolas", 1, 16)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Thông tin thí sinh");
-
-        txtNgaySinh.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("MM/dd/yyyy"))));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -148,9 +152,9 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(95, 95, 95)
-                        .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnDong, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -207,8 +211,8 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
                     .addComponent(lbHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(lbNgaySinh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtNgaySinh, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -230,17 +234,21 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbQueQuan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtQueQuan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 89, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnLuu, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDong, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(17, 17, 17))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnLuuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLuuActionPerformed
+    /**
+     * Lưu dữ liệu
+     * @param evt 
+     */
+    private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         String maThiSinh = null, hoTen = null, gioiTinh, CMND = null, soDienThoai = null, queQuan, danToc;
         Date ngaySinh = null;
         boolean isOk = true;
@@ -271,7 +279,7 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
         queQuan = txtQueQuan.getText();
         danToc = txtDanToc.getText();
         try {
-            ngaySinh = new SimpleDateFormat("MM/dd/yyyy").parse(txtNgaySinh.getText());
+            ngaySinh = new SimpleDateFormat("dd/MM/yyyy").parse(txtNgaySinh.getText());
         } catch (ParseException ex) {
             JOptionPane.showMessageDialog(this, "Ngày sinh không đúng định dạng");
             isOk = false;
@@ -305,11 +313,15 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
             }
         }
 
-    }//GEN-LAST:event_btnLuuActionPerformed
+    }//GEN-LAST:event_btnSaveActionPerformed
 
-    private void btnDongActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDongActionPerformed
+    /**
+     * Đóng app
+     * @param evt 
+     */
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         this.dispose();
-    }//GEN-LAST:event_btnDongActionPerformed
+    }//GEN-LAST:event_btnCloseActionPerformed
 
     /**
      * @param args the command line arguments
@@ -354,8 +366,8 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnDong;
-    private javax.swing.JButton btnLuu;
+    private javax.swing.JButton btnClose;
+    private javax.swing.JButton btnSave;
     private javax.swing.JComboBox<String> cbGioiTinh;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel lbCMND;
@@ -370,7 +382,7 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
     private javax.swing.JTextField txtDanToc;
     private javax.swing.JTextField txtHoTen;
     private javax.swing.JTextField txtMaThiSinh;
-    private javax.swing.JFormattedTextField txtNgaySinh;
+    private javax.swing.JTextField txtNgaySinh;
     private javax.swing.JTextField txtQueQuan;
     private javax.swing.JTextField txtSoDienThoai;
     // End of variables declaration//GEN-END:variables

@@ -32,6 +32,9 @@ public class DiemThiFormFrm extends javax.swing.JDialog {
         setMonThi();
     }
 
+    /**
+     * Load dữ liệu môn thi thành các ô input
+     */
     public void setMonThi() {
         listMonThi = new MonThiDAO().getListItem();
         int y = 80;
@@ -57,6 +60,11 @@ public class DiemThiFormFrm extends javax.swing.JDialog {
         }
     }
 
+    /**
+     * Kiểm tra bảng điểm thi và load điểm tương ứng
+     * @param listScore
+     * @param mts 
+     */
     public void setData(ArrayList<DiemThi> listScore, String mts) {
         maThiSinh = mts;
 
@@ -146,10 +154,15 @@ public class DiemThiFormFrm extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnCloseActionPerformed
 
+    /**
+     * Lưu 
+     * @param evt 
+     */
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         boolean isOk = true;
         int sizeListDiemThi = listDiemThi.size();
-
+        
+        // Kiểm tra bảng điểm thi có tồn tại điểm hay k
         if (sizeListDiemThi > 0) {
             for (int i = 0; i < sizeListDiemThi; i++) {
                 DiemThi itemDiemThi = listDiemThi.get(i);
