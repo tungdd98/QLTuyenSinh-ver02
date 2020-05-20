@@ -167,16 +167,16 @@ public class NganhThiFormFrm extends javax.swing.JDialog {
         if (isOk) {
             NganhThi item = new NganhThi(maNganh, tenNganh);
             if (!isEdit) {
-                home.addItem(item);
                 if (new NganhThiDAO().addItem(item)) {
+                    home.addItem(item);
                     JOptionPane.showMessageDialog(this, "Thêm mới thành công!");
                     resetForm();
                 } else {
-                    JOptionPane.showMessageDialog(this, "Có lỗi xảy ra!");
+                    JOptionPane.showMessageDialog(this, "Mã ngành thi đã tồn tại");
                 }
             } else {
-                home.updateItem(item);
                 if (new NganhThiDAO().updateItem(item)) {
+                    home.updateItem(item);
                     JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
                     this.dispose();
                 } else {
