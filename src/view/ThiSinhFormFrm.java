@@ -295,16 +295,16 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
         if (isOk) {
             ThiSinh ts = new ThiSinh(maThiSinh, hoTen, gioiTinh, danToc, soDienThoai, queQuan, CMND, ngaySinh);
             if (!isEdit) {
-                home.addItem(ts);
                 if (new ThiSinhDAO().addItem(ts)) {
+                    home.addItem(ts);
                     JOptionPane.showMessageDialog(this, "Thêm mới thành công!");
                     resetForm();
                 } else {
-                    JOptionPane.showMessageDialog(this, "Có lỗi xảy ra!");
+                    JOptionPane.showMessageDialog(this, "Mã thí sinh đã tồn tại!");
                 }
             } else {
-                home.updateItem(ts);
                 if (new ThiSinhDAO().updateItem(ts)) {
+                    home.updateItem(ts);
                     JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
                     this.dispose();
                 } else {
