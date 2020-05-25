@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableModel;
 import entity.DiemThi;
 import entity.ThiSinh;
 import java.text.SimpleDateFormat;
+import javax.swing.JComboBox;
 
 /**
  *
@@ -18,7 +19,7 @@ public class ThiSinhFrm extends javax.swing.JFrame {
     private final String[] header = {"STT", "Mã thí sinh", "Họ tên", "Ngày sinh", "Giới tính", "CMND", "Dân tộc", "Số điện thoại", "Quê quán"};
     private ArrayList<ThiSinh> items = new ArrayList<>();
     private int selectedIndex;
-    DefaultTableModel model;
+    private DefaultTableModel model;
 
     /**
      * Creates new form ThiSinhFrm
@@ -47,16 +48,18 @@ public class ThiSinhFrm extends javax.swing.JFrame {
 
     /**
      * Thêm mới vào arraylist
-     * @param ts 
+     *
+     * @param ts
      */
     public void addItem(ThiSinh ts) {
         items.add(ts);
         showTable();
     }
-    
+
     /**
      * Cập nhật vào arraylist
-     * @param ts 
+     *
+     * @param ts
      */
     public void updateItem(ThiSinh ts) {
         items.remove(selectedIndex);
@@ -140,6 +143,11 @@ public class ThiSinhFrm extends javax.swing.JFrame {
 
         btnSearch.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
         btnSearch.setText("Tìm kiếm");
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
 
         tblThiSinh.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -221,7 +229,8 @@ public class ThiSinhFrm extends javax.swing.JFrame {
 
     /**
      * Trở về trang chủ
-     * @param evt 
+     *
+     * @param evt
      */
     private void btnBackHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackHomeActionPerformed
         new TrangChuFrm().setVisible(true);
@@ -230,7 +239,8 @@ public class ThiSinhFrm extends javax.swing.JFrame {
 
     /**
      * Sự kiện thêm mới
-     * @param evt 
+     *
+     * @param evt
      */
     private void btnAddNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddNewActionPerformed
         ThiSinhFormFrm form = new ThiSinhFormFrm(this, rootPaneCheckingEnabled);
@@ -239,7 +249,8 @@ public class ThiSinhFrm extends javax.swing.JFrame {
 
     /**
      * Sự kiện cập nhật
-     * @param evt 
+     *
+     * @param evt
      */
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         selectedIndex = tblThiSinh.getSelectedRow();
@@ -252,10 +263,11 @@ public class ThiSinhFrm extends javax.swing.JFrame {
             form.setVisible(true);
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
-    
+
     /**
      * Sự kiện hiển thị dữ liệu khi bấm vào hàng trong bảng
-     * @param evt 
+     *
+     * @param evt
      */
     private void tblThiSinhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblThiSinhMouseClicked
         btnUpdate.setEnabled(true);
@@ -266,7 +278,8 @@ public class ThiSinhFrm extends javax.swing.JFrame {
 
     /**
      * Sự kiện xoá phần tử
-     * @param evt 
+     *
+     * @param evt
      */
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int removeIndex = tblThiSinh.getSelectedRow();
@@ -290,7 +303,8 @@ public class ThiSinhFrm extends javax.swing.JFrame {
 
     /**
      * Sự kiện xem điểm
-     * @param evt 
+     *
+     * @param evt
      */
     private void btnScoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnScoreActionPerformed
         selectedIndex = tblThiSinh.getSelectedRow();
@@ -307,6 +321,35 @@ public class ThiSinhFrm extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_btnScoreActionPerformed
+
+    /**
+     * Tìm kiếm
+     *
+     * @param evt
+     */
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        String chosen = cbFilter.getSelectedItem().toString();
+        String query = JOptionPane.showInputDialog(rootPane, "Tìm kiếm theo " + chosen);
+        System.out.println("Query" + query);
+        if (!"".equals(query) && query != null) {
+            switch (chosen) {
+                case "Họ tên":
+                    items = new ThiSinhDAO().searchItem(query.trim(), "hoTen");
+                    showTable();
+                    break;
+
+                case "CMND":
+                    items = new ThiSinhDAO().searchItem(query.trim(), "CMND");
+                    showTable();
+                    break;
+
+                default:
+                    items = new ThiSinhDAO().searchItem(query.trim(), "maThiSinh");
+                    showTable();
+                    break;
+            }
+        }
+    }//GEN-LAST:event_btnSearchActionPerformed
 
     /**
      * @param args the command line arguments

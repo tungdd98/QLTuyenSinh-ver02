@@ -298,7 +298,7 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
                 if (new ThiSinhDAO().addItem(ts)) {
                     home.addItem(ts);
                     JOptionPane.showMessageDialog(this, "Thêm mới thành công!");
-                    resetForm();
+                    this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(this, "Mã thí sinh đã tồn tại!");
                 }
@@ -306,6 +306,7 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
                 if (new ThiSinhDAO().updateItem(ts)) {
                     home.updateItem(ts);
                     JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
+                    resetForm();
                     this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(this, "Có lỗi xảy ra!");
