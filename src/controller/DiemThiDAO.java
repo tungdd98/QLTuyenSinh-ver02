@@ -52,7 +52,7 @@ public class DiemThiDAO extends DAO {
     
     public ArrayList<DiemThi> getListItem(String maThiSinh) {
         ArrayList<DiemThi> items = new ArrayList<>();
-        String sql = "SELECT id, thiSinh_id, monThi_id, diem, tenMon FROM diem_thi INNER JOIN mon_thi ON diem_thi.monThi_id = mon_thi.maMon WHERE thiSinh_id = ?";
+        String sql = "SELECT * FROM diem_thi WHERE thiSinh_id = ?";
         
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -65,7 +65,6 @@ public class DiemThiDAO extends DAO {
                 item.setThiSinh_id(rs.getString("thiSinh_id"));
                 item.setMonThi_id(rs.getInt("monThi_id"));
                 item.setDiem(rs.getString("diem"));
-                item.setTenMonThi(rs.getString("tenMon"));
                 
                 items.add(item);
             }

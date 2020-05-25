@@ -10,25 +10,15 @@ public class DiemThi {
     private String thiSinh_id;
     private int monThi_id;
     private String diem;
-    private String tenMonThi;
 
     public DiemThi() {
     }
 
-    public DiemThi(int id, String thiSinh_id, int monThi_id, String diem, String tenMonThi) {
+    public DiemThi(int id, String thiSinh_id, int monThi_id, String diem) {
         this.id = id;
         this.thiSinh_id = thiSinh_id;
         this.monThi_id = monThi_id;
         this.diem = diem;
-        this.tenMonThi = tenMonThi;
-    }
-
-    public String getTenMonThi() {
-        return tenMonThi;
-    }
-
-    public void setTenMonThi(String tenMonThi) {
-        this.tenMonThi = tenMonThi;
     }
 
     public int getId() {

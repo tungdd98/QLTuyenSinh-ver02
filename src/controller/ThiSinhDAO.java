@@ -13,6 +13,9 @@ import entity.ThiSinh;
  */
 public class ThiSinhDAO extends DAO {
 
+    private String orderBy = "hoTen";
+    private String orderDir = "DESC";
+
     public ThiSinhDAO() {
         super();
     }
@@ -68,7 +71,7 @@ public class ThiSinhDAO extends DAO {
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, ts.getMaThiSinh());
-            
+
             return ps.executeUpdate() > 0;
         } catch (SQLException e) {
         }
@@ -78,7 +81,7 @@ public class ThiSinhDAO extends DAO {
 
     public ArrayList<ThiSinh> getListItem() {
         ArrayList<ThiSinh> items = new ArrayList<>();
-        String sql = "SELECT * FROM thi_sinh";
+        String sql = "SELECT * FROM thi_sinh ORDER BY " + orderBy + " " + orderDir;
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -99,6 +102,44 @@ public class ThiSinhDAO extends DAO {
             }
         } catch (SQLException e) {
         }
+        return items;
+    }
+
+    public ArrayList<ThiSinh> searchItem(String query, String field) {
+        ArrayList<ThiSinh> items = new ArrayList<>();
+        String sql = "";
+        switch (field) {
+            case "maThiSinh":
+                sql = "SELECT * from thi_sinh WHERE maThiSinh = ?";
+                break;
+            case "CMND":
+                sql = "SELECT * from thi_sinh WHERE CMND = ?";
+                break;
+            case "hoTen":
+                sql = "SELECT * FROM thi_sinh WHERE hoTen LIKE % ? %";
+                break;
+        }
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setString(1, query);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ThiSinh ts = new ThiSinh();
+                ts.setMaThiSinh(rs.getString("maThiSinh"));
+                ts.setHoTen(rs.getString("hoTen"));
+                ts.setNgaySinh(rs.getDate("ngaySinh"));
+                ts.setGioiTinh(rs.getString("gioiTinh"));
+                ts.setDanToc(rs.getString("danToc"));
+                ts.setCMND(rs.getString("CMND"));
+                ts.setSoDienThoai(rs.getString("soDienThoai"));
+                ts.setQueQuan(rs.getString("queQuan"));
+
+                items.add(ts);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
         return items;
     }
 

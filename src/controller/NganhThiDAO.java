@@ -11,6 +11,8 @@ import java.util.ArrayList;
  * @author tungdd
  */
 public class NganhThiDAO extends DAO {
+    private String orderBy = "tenNganh"; 
+    private String orderDir = "ASC"; 
     public NganhThiDAO() {
         super();
     }
@@ -64,7 +66,7 @@ public class NganhThiDAO extends DAO {
     
     public ArrayList<NganhThi> getListItem() {
         ArrayList<NganhThi> items = new ArrayList<>();
-        String sql = "SELECT * FROM nganh_thi";
+        String sql = "SELECT * FROM nganh_thi ORDER BY " + orderBy + " " + orderDir;
         
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
