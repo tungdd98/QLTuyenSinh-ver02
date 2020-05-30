@@ -231,7 +231,7 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "Thêm mới thành công!");
                     this.dispose();
                 } else {
-                    JOptionPane.showMessageDialog(this, "Mã ngành thi đã tồn tại!");
+                    JOptionPane.showMessageDialog(this, "Điểm chuẩn năm này đã tồn tại!");
                 }
             } else {
                 if (new DiemTuyenSinhDAO().updateItem(item)) {
