@@ -127,7 +127,8 @@ public class TrangChuFrm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnQLThiSinhActionPerformed
 
     private void btnBanTSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBanTSActionPerformed
-        // TODO add your handling code here:
+        new BanTuyenSinhFrm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnBanTSActionPerformed
 
     private void btnDHCNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDHCNActionPerformed

@@ -1,12 +1,13 @@
 package view;
 
 import controller.DiemTuyenSinhDAO;
+import controller.KhoiThiDAO;
 import controller.NganhThiDAO;
 import entity.DiemTuyenSinh;
+import entity.KhoiThi;
 import entity.NganhThi;
 import helper.Validator;
 import java.util.ArrayList;
-import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 /**
@@ -19,6 +20,8 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
     private boolean isEdit = false;
     private ArrayList<NganhThi> listNganhThi = new ArrayList<>();
     private String[] listTenNganhThi;
+    private ArrayList<KhoiThi> listKhoiThi = new ArrayList<>();
+    private String[] listTenKhoiThi;
     private String maNganh;
 
     /**
@@ -32,8 +35,13 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
         home = (DiemTuyenSinhFrm) parent;
         listNganhThi = new NganhThiDAO().getListItem();
         setListTenNganhThi();
+        listKhoiThi = new KhoiThiDAO().getListItem();
+        setListTenKhoiThi();
     }
 
+    /**
+     * Lấy dữ liệu vào ô combobox ngành thi
+     */
     public void setListTenNganhThi() {
         int size = listNganhThi.size();
         listTenNganhThi = new String[size];
@@ -43,6 +51,20 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
         }
         cbTenNganh.setModel(new javax.swing.DefaultComboBoxModel(listTenNganhThi));
     }
+    
+    /**
+     * Lấy dữ liệu vào ô combobox khối thi
+     */
+    public void setListTenKhoiThi() {
+        int size = listKhoiThi.size();
+        listTenKhoiThi = new String[size];
+
+        for (int i = 0; i < size; i++) {
+            listTenKhoiThi[i] = listKhoiThi.get(i).getTenKhoi();
+        }
+        cbKhoiThi.setModel(new javax.swing.DefaultComboBoxModel(listTenKhoiThi));
+    }
+    
 
     /**
      * Lấy dữ liệu từ phần tử được chọn
@@ -64,6 +86,8 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
         txtNamThi.setText(item.getNamThi());
         cbTenNganh.setSelectedIndex(index);
         cbTenNganh.setEnabled(false);
+        cbKhoiThi.setSelectedItem(item.getTenKhoi());
+        cbKhoiThi.setEnabled(false);
     }
 
     /**
@@ -86,6 +110,8 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
         txtNamThi = new javax.swing.JTextField();
         lbMaThiSinh1 = new javax.swing.JLabel();
         cbTenNganh = new javax.swing.JComboBox<>();
+        lbMaThiSinh2 = new javax.swing.JLabel();
+        cbKhoiThi = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Thông tin thí sinh");
@@ -131,6 +157,11 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
 
         cbTenNganh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
+        lbMaThiSinh2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbMaThiSinh2.setText("Khối thi");
+
+        cbKhoiThi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -157,7 +188,11 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
                                 .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(lbMaThiSinh1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
-                                    .addComponent(cbTenNganh, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                                    .addComponent(cbTenNganh, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                    .addComponent(lbMaThiSinh2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(cbKhoiThi, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lbHoTen2, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -176,7 +211,11 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbMaThiSinh1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbTenNganh, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(26, 26, 26)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbMaThiSinh2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbKhoiThi, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtDiemChuan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -188,7 +227,7 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbHoTen2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtNamThi, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(120, 120, 120)
+                .addGap(73, 73, 73)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -207,6 +246,7 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
         boolean isSuccess = true;
         ArrayList<Validator> data = new ArrayList<>();
         String maNganh;
+        int maKhoi;
         Validator diemChuan = new Validator(txtDiemChuan.getText(), new String[]{"required", "isNumber"}, "Điểm chuẩn"),
                 chiTieu = new Validator(txtChiTieu.getText(), new String[]{"required", "isNumber"}, "Chỉ tiêu"),
                 namThi = new Validator(txtNamThi.getText(), new String[]{"required", "isNumber"}, "Năm thi");
@@ -222,9 +262,12 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
         }
         
         if (isSuccess) {
-            int index = cbTenNganh.getSelectedIndex();
-            maNganh = listNganhThi.get(index).getMaNganh();
-            DiemTuyenSinh item = new DiemTuyenSinh(maNganh, diemChuan.getText(), chiTieu.getText(), namThi.getText());
+            int indexMaNganh = cbTenNganh.getSelectedIndex();
+            int indexMaKhoi = cbKhoiThi.getSelectedIndex();
+            maNganh = listNganhThi.get(indexMaNganh).getMaNganh();
+            maKhoi = listKhoiThi.get(indexMaKhoi).getMaKhoi();
+            DiemTuyenSinh item = new DiemTuyenSinh(maNganh, diemChuan.getText(), chiTieu.getText(), namThi.getText(), maKhoi, cbKhoiThi.getSelectedItem().toString());
+            
             if (!isEdit) {
                 if (new DiemTuyenSinhDAO().addItem(item)) {
                     home.addItem(item);
@@ -302,12 +345,14 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnSave;
+    private javax.swing.JComboBox<String> cbKhoiThi;
     private javax.swing.JComboBox<String> cbTenNganh;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel lbHoTen;
     private javax.swing.JLabel lbHoTen1;
     private javax.swing.JLabel lbHoTen2;
     private javax.swing.JLabel lbMaThiSinh1;
+    private javax.swing.JLabel lbMaThiSinh2;
     private javax.swing.JTextField txtChiTieu;
     private javax.swing.JTextField txtDiemChuan;
     private javax.swing.JTextField txtNamThi;
