@@ -2,6 +2,8 @@ package view;
 
 import controller.NganhThiDAO;
 import entity.NganhThi;
+import helper.Validator;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 /**
@@ -21,14 +23,6 @@ public class NganhThiFormFrm extends javax.swing.JDialog {
         initComponents();
         setLocationRelativeTo(null);
         home = (NganhThiFrm) parent;
-    }
-
-    /**
-     * Làm mới dữ liệu
-     */
-    public void resetForm() {
-        txtMaNganh.setText("");
-        txtTenNganh.setText("");
     }
 
     /**
@@ -65,12 +59,17 @@ public class NganhThiFormFrm extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Thông tin thí sinh");
 
-        lbMaThiSinh.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        lbMaThiSinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbMaThiSinh.setText("Mã ngành");
 
-        lbHoTen.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        txtMaNganh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        lbHoTen.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbHoTen.setText("Tên ngành");
 
+        txtTenNganh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        btnSave.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSave.setText("Lưu lại");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -78,6 +77,7 @@ public class NganhThiFormFrm extends javax.swing.JDialog {
             }
         });
 
+        btnClose.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnClose.setText("Đóng");
         btnClose.setToolTipText("");
         btnClose.addActionListener(new java.awt.event.ActionListener() {
@@ -86,7 +86,7 @@ public class NganhThiFormFrm extends javax.swing.JDialog {
             }
         });
 
-        jLabel9.setFont(new java.awt.Font("Consolas", 1, 16)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Thông tin ngành thi");
 
@@ -131,7 +131,7 @@ public class NganhThiFormFrm extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbHoTen, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtTenNganh, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -142,37 +142,34 @@ public class NganhThiFormFrm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Lưu dữ liệu
+     * Sự kiện lưu dữ liệu
      *
      * @param evt
      */
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        String maNganh = null, tenNganh = null;
-        boolean isOk = true;
-
-        if (!txtMaNganh.getText().equals("")) {
-            maNganh = txtMaNganh.getText();
-        } else {
-            JOptionPane.showMessageDialog(this, "Mã ngành không được để trống");
-            isOk = false;
+        boolean isSuccess = true;
+        ArrayList<Validator> data = new ArrayList<>();
+        Validator maNganhThi = new Validator(txtMaNganh.getText(), new String[]{"required"}, "Mã ngành thi"),
+                tenNganhThi = new Validator(txtTenNganh.getText(), new String[]{"required"}, "Tên ngành thi");
+        
+        data.add(maNganhThi);
+        data.add(tenNganhThi);
+        
+        for (Validator item : data) {
+            if (!item.setTextField(home)) {
+                isSuccess = false;
+            }
         }
-
-        if (!txtTenNganh.getText().equals("")) {
-            tenNganh = txtTenNganh.getText();
-        } else {
-            JOptionPane.showMessageDialog(this, "Tên ngành không được để trống");
-            isOk = false;
-        }
-
-        if (isOk) {
-            NganhThi item = new NganhThi(maNganh, tenNganh);
+        
+        if (isSuccess) {
+            NganhThi item = new NganhThi(maNganhThi.getText(), tenNganhThi.getText());
             if (!isEdit) {
                 if (new NganhThiDAO().addItem(item)) {
                     home.addItem(item);
                     JOptionPane.showMessageDialog(this, "Thêm mới thành công!");
-                    resetForm();
+                    this.dispose();
                 } else {
-                    JOptionPane.showMessageDialog(this, "Mã ngành thi đã tồn tại");
+                    JOptionPane.showMessageDialog(this, "Mã ngành thi đã tồn tại!");
                 }
             } else {
                 if (new NganhThiDAO().updateItem(item)) {
@@ -187,7 +184,7 @@ public class NganhThiFormFrm extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSaveActionPerformed
 
     /**
-     * Đóng app
+     * Sự kiện đóng app
      *
      * @param evt
      */

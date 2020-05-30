@@ -35,11 +35,11 @@ public class TrangChuFrm extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(800, 450));
         setSize(new java.awt.Dimension(800, 450));
 
-        jLabel1.setFont(new java.awt.Font("Consolas", 1, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Quản lý tuyển sinh");
 
-        btnQLThiSinh.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        btnQLThiSinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnQLThiSinh.setText("Quản lý thí sinh");
         btnQLThiSinh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -47,7 +47,7 @@ public class TrangChuFrm extends javax.swing.JFrame {
             }
         });
 
-        btnBanTS.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        btnBanTS.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnBanTS.setText("Ban tuyển sinh");
         btnBanTS.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -55,7 +55,7 @@ public class TrangChuFrm extends javax.swing.JFrame {
             }
         });
 
-        btnDHCN.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        btnDHCN.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnDHCN.setText("Trường Đại học CNHN");
         btnDHCN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -63,7 +63,7 @@ public class TrangChuFrm extends javax.swing.JFrame {
             }
         });
 
-        btnXemDiemTS.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        btnXemDiemTS.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnXemDiemTS.setText("Xem điểm tuyển sinh");
         btnXemDiemTS.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
