@@ -10,7 +10,7 @@ import java.util.Date;
 public class ThiSinh {
     private String maThiSinh;
     private String hoTen;
-    private String gioiTinh;
+    private int gioiTinh;
     private String danToc;
     private String soDienThoai;
     private String queQuan;
@@ -20,7 +20,7 @@ public class ThiSinh {
     public ThiSinh() {
     }
 
-    public ThiSinh(String maThiSinh, String hoTen, String gioiTinh, String danToc, String soDienThoai, String queQuan, String CMND, Date ngaySinh) {
+    public ThiSinh(String maThiSinh, String hoTen, int gioiTinh, String danToc, String soDienThoai, String queQuan, String CMND, Date ngaySinh) {
         this.maThiSinh = maThiSinh;
         this.hoTen = hoTen;
         this.gioiTinh = gioiTinh;
@@ -47,11 +47,11 @@ public class ThiSinh {
         this.hoTen = hoTen;
     }
 
-    public String getGioiTinh() {
+    public int getGioiTinh() {
         return gioiTinh;
     }
 
-    public void setGioiTinh(String gioiTinh) {
+    public void setGioiTinh(int gioiTinh) {
         this.gioiTinh = gioiTinh;
     }
 

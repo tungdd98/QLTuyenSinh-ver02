@@ -35,11 +35,11 @@ public class DhCnhnFrm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setFont(new java.awt.Font("Consolas", 1, 16)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Trường ĐH Công nghiệp HN");
 
-        btnBackHome.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        btnBackHome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnBackHome.setText("Trang chủ");
         btnBackHome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -47,7 +47,7 @@ public class DhCnhnFrm extends javax.swing.JFrame {
             }
         });
 
-        btnQLNganhThi.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        btnQLNganhThi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnQLNganhThi.setText("Quản lý ngành thi");
         btnQLNganhThi.setToolTipText("");
         btnQLNganhThi.addActionListener(new java.awt.event.ActionListener() {
@@ -56,7 +56,7 @@ public class DhCnhnFrm extends javax.swing.JFrame {
             }
         });
 
-        btnQLDiemTuyenSinh.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        btnQLDiemTuyenSinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnQLDiemTuyenSinh.setText("Quản lý điểm tuyển sinh");
         btnQLDiemTuyenSinh.setToolTipText("");
         btnQLDiemTuyenSinh.addActionListener(new java.awt.event.ActionListener() {
@@ -73,23 +73,23 @@ public class DhCnhnFrm extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnBackHome)
-                        .addGap(135, 135, 135)
+                        .addComponent(btnBackHome, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(126, 126, 126)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(274, 274, 274)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnQLDiemTuyenSinh, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnQLNganhThi, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(266, Short.MAX_VALUE))
+                .addContainerGap(283, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnBackHome)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnBackHome, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(60, 60, 60)
                 .addComponent(btnQLNganhThi, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)

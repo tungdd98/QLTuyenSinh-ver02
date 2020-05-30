@@ -6,27 +6,27 @@ package entity;
  * @author tungdd
  */
 public class DiemThi {
-    private int id;
     private String thiSinh_id;
     private int monThi_id;
     private String diem;
+    private String tenMon;
+
+    public String getTenMon() {
+        return tenMon;
+    }
+
+    public void setTenMon(String tenMon) {
+        this.tenMon = tenMon;
+    }
 
     public DiemThi() {
     }
 
-    public DiemThi(int id, String thiSinh_id, int monThi_id, String diem) {
-        this.id = id;
+    public DiemThi(String thiSinh_id, int monThi_id, String diem, String tenMon) {
         this.thiSinh_id = thiSinh_id;
         this.monThi_id = monThi_id;
         this.diem = diem;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.tenMon = tenMon;
     }
 
     public String getThiSinh_id() {

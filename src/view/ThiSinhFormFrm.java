@@ -9,9 +9,10 @@ import controller.ThiSinhDAO;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import entity.ThiSinh;
+import helper.Validator;
+import java.util.ArrayList;
 
 /**
  *
@@ -33,36 +34,27 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
     }
 
     /**
-     * Làm mới dữ liệu
-     */
-    public void resetForm() {
-        txtMaThiSinh.setText("");
-        txtHoTen.setText("");
-        txtDanToc.setText("");
-        txtSoDienThoai.setText("");
-        txtQueQuan.setText("");
-        txtNgaySinh.setText("");
-        txtCMND.setText("");
-        cbGioiTinh.setSelectedItem(0);
-    }
-    
-    /**
      * Lấy dữ liệu từ phần tử được chọn
+     *
      * @param edit
-     * @param ts 
+     * @param ts
      */
-    public void getSelectedItem(boolean edit, ThiSinh ts) {
+    public void getSelectedItem(boolean edit, ThiSinh item) {
         isEdit = edit;
-        
-        txtMaThiSinh.setText(ts.getMaThiSinh());
+
+        txtMaThiSinh.setText(item.getMaThiSinh());
         txtMaThiSinh.setEnabled(false);
-        txtHoTen.setText(ts.getHoTen());
-        txtDanToc.setText(ts.getDanToc());
-        txtSoDienThoai.setText(ts.getSoDienThoai());
-        txtQueQuan.setText(ts.getQueQuan());
-        txtNgaySinh.setText("" + new SimpleDateFormat("dd/MM/yyyy").format(ts.getNgaySinh()));
-        txtCMND.setText(ts.getCMND());
-        cbGioiTinh.setSelectedItem("" + ts.getGioiTinh());
+        txtHoTen.setText(item.getHoTen());
+        txtDanToc.setText(item.getDanToc());
+        txtSoDienThoai.setText(item.getSoDienThoai());
+        cbQueQuan.setSelectedItem(item.getQueQuan());
+        txtNgaySinh.setText("" + new SimpleDateFormat("dd/MM/yyyy").format(item.getNgaySinh()));
+        txtCMND.setText(item.getCMND());
+        if (item.getGioiTinh() == 1) {
+            rdoNam.setSelected(true);
+        } else {
+            rdoNu.setSelected(true);
+        }
     }
 
     /**
@@ -74,6 +66,7 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        grGioiTinh = new javax.swing.ButtonGroup();
         lbMaThiSinh = new javax.swing.JLabel();
         txtMaThiSinh = new javax.swing.JTextField();
         lbHoTen = new javax.swing.JLabel();
@@ -87,44 +80,53 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
         lbSoDienThoai = new javax.swing.JLabel();
         txtSoDienThoai = new javax.swing.JTextField();
         lbQueQuan = new javax.swing.JLabel();
-        txtQueQuan = new javax.swing.JTextField();
-        cbGioiTinh = new javax.swing.JComboBox<>();
         btnSave = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
         txtNgaySinh = new javax.swing.JTextField();
+        rdoNam = new javax.swing.JRadioButton();
+        rdoNu = new javax.swing.JRadioButton();
+        cbQueQuan = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Thông tin thí sinh");
         setPreferredSize(new java.awt.Dimension(400, 550));
 
-        lbMaThiSinh.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        lbMaThiSinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbMaThiSinh.setText("Mã thí sinh");
 
-        lbHoTen.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        txtMaThiSinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        lbHoTen.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbHoTen.setText("Họ và tên");
 
-        lbNgaySinh.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        txtHoTen.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        lbNgaySinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbNgaySinh.setText("Ngày sinh");
 
-        lbCMND.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        lbCMND.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbCMND.setText("CMND");
 
-        lbGioiTinh.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        txtCMND.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        lbGioiTinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbGioiTinh.setText("Giới tính");
 
-        lbDanToc.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        lbDanToc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbDanToc.setText("Dân tộc");
 
-        lbSoDienThoai.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        txtDanToc.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        lbSoDienThoai.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbSoDienThoai.setText("Điện thoại");
 
-        lbQueQuan.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
+        txtSoDienThoai.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        lbQueQuan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbQueQuan.setText("Quê quán");
 
-        cbGioiTinh.setFont(new java.awt.Font("Consolas", 1, 14)); // NOI18N
-        cbGioiTinh.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Nam", "Nữ" }));
-
+        btnSave.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSave.setText("Lưu lại");
         btnSave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -132,6 +134,7 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
             }
         });
 
+        btnClose.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnClose.setText("Đóng");
         btnClose.setToolTipText("");
         btnClose.addActionListener(new java.awt.event.ActionListener() {
@@ -140,9 +143,23 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
             }
         });
 
-        jLabel9.setFont(new java.awt.Font("Consolas", 1, 16)); // NOI18N
+        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel9.setText("Thông tin thí sinh");
+
+        txtNgaySinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        grGioiTinh.add(rdoNam);
+        rdoNam.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rdoNam.setSelected(true);
+        rdoNam.setText("Nam");
+
+        grGioiTinh.add(rdoNu);
+        rdoNu.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        rdoNu.setText("Nữ");
+
+        cbQueQuan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbQueQuan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hà Nội", "Hải Phòng", "Hà Nam", "Bắc Ninh", "TP. Hồ Chí Minh", "Hải Dương", "Cao Bằng", "Thái Bình", "Vĩnh Phúc", "Bắc Giang", "Hưng Yên" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -157,24 +174,26 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
                         .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(25, 25, 25)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lbQueQuan, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(txtQueQuan, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(cbQueQuan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lbSoDienThoai, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(txtSoDienThoai, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(lbDanToc, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
                                     .addComponent(txtDanToc, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                     .addComponent(lbGioiTinh, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
-                                    .addComponent(cbGioiTinh, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                    .addComponent(rdoNam)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(rdoNu))
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(lbCMND, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
@@ -219,9 +238,13 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
                     .addComponent(lbCMND, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCMND, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lbGioiTinh, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbGioiTinh, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rdoNam, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(rdoNu, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbDanToc, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -233,8 +256,8 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbQueQuan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtQueQuan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 88, Short.MAX_VALUE)
+                    .addComponent(cbQueQuan, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSave, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -245,80 +268,73 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Lưu dữ liệu
-     * @param evt 
+     * Sự kiện lưu dữ liệu
+     *
+     * @param evt
      */
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
-        String maThiSinh = null, hoTen = null, gioiTinh, CMND = null, soDienThoai = null, queQuan, danToc;
+        boolean isSuccess = true;
+        ArrayList<Validator> data = new ArrayList<>();
+        Validator maThiSinh = new Validator(txtMaThiSinh.getText(), new String[]{"required", "isNumber"}, "Mã thí sinh"),
+                hoTen = new Validator(txtHoTen.getText(), new String[]{"required", "isString"}, "Họ tên"),
+                CMND = new Validator(txtCMND.getText(), new String[]{"required"}, "CMND"),
+                danToc = new Validator(txtDanToc.getText(), new String[]{"required", "isString"}, "Dân tộc"),
+                soDienThoai = new Validator(txtSoDienThoai.getText(), new String[]{"isNumber"}, "Số điện thoại");
         Date ngaySinh = null;
-        boolean isOk = true;
-        String regexNumber = "^[0-9]*$";
+        int gioiTinh = 1;
+        String queQuan = null;
 
-        if (!txtMaThiSinh.getText().equals("")) {
-            maThiSinh = txtMaThiSinh.getText();
-        } else {
-            JOptionPane.showMessageDialog(this, "Mã thí sinh không được để trống");
-            isOk = false;
+        data.add(maThiSinh);
+        data.add(hoTen);
+        data.add(CMND);
+        data.add(danToc);
+        data.add(soDienThoai);
+
+        for (Validator item : data) {
+            if (!item.setTextField(home)) {
+                isSuccess = false;
+            }
         }
 
-        if (!txtHoTen.getText().equals("")) {
-            hoTen = txtHoTen.getText();
-        } else {
-            JOptionPane.showMessageDialog(this, "Họ và tên không được để trống");
-            isOk = false;
-        }
-
-        if (!txtCMND.getText().equals("")) {
-            CMND = txtCMND.getText();
-        } else {
-            JOptionPane.showMessageDialog(this, "CMND không được để trống");
-            isOk = false;
-        }
-
-        gioiTinh = (String) cbGioiTinh.getSelectedItem();
-        queQuan = txtQueQuan.getText();
-        danToc = txtDanToc.getText();
         try {
             ngaySinh = new SimpleDateFormat("dd/MM/yyyy").parse(txtNgaySinh.getText());
         } catch (ParseException ex) {
-            JOptionPane.showMessageDialog(this, "Ngày sinh không đúng định dạng");
-            isOk = false;
+            JOptionPane.showMessageDialog(this, "Ngày sinh phải đúng định dạng dd/MM/yyyy");
+            isSuccess = false;
         }
 
-        if (Pattern.matches(regexNumber, txtSoDienThoai.getText())) {
-            soDienThoai = txtSoDienThoai.getText();
-        } else {
-            JOptionPane.showMessageDialog(this, "Số điện thoại không đúng định dạng");
-            isOk = false;
-        }
-
-        if (isOk) {
-            ThiSinh ts = new ThiSinh(maThiSinh, hoTen, gioiTinh, danToc, soDienThoai, queQuan, CMND, ngaySinh);
+        if (isSuccess) {
+            if (rdoNam.isSelected()) {
+                gioiTinh = 1;
+            } else if (rdoNu.isSelected()) {
+                gioiTinh = 0;
+            }
+            queQuan = cbQueQuan.getSelectedItem().toString();
+            ThiSinh item = new ThiSinh(maThiSinh.getText(), hoTen.getText(), gioiTinh, danToc.getText(), soDienThoai.getText(), queQuan, CMND.getText(), ngaySinh);
             if (!isEdit) {
-                if (new ThiSinhDAO().addItem(ts)) {
-                    home.addItem(ts);
+                if (new ThiSinhDAO().addItem(item)) {
+                    home.addItem(item);
                     JOptionPane.showMessageDialog(this, "Thêm mới thành công!");
                     this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(this, "Mã thí sinh đã tồn tại!");
                 }
             } else {
-                if (new ThiSinhDAO().updateItem(ts)) {
-                    home.updateItem(ts);
+                if (new ThiSinhDAO().updateItem(item)) {
+                    home.updateItem(item);
                     JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
-                    resetForm();
                     this.dispose();
                 } else {
                     JOptionPane.showMessageDialog(this, "Có lỗi xảy ra!");
                 }
             }
         }
-
     }//GEN-LAST:event_btnSaveActionPerformed
 
     /**
-     * Đóng app
-     * @param evt 
+     * Sự kiến đóng trang
+     *
+     * @param evt
      */
     private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
         this.dispose();
@@ -369,7 +385,8 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnSave;
-    private javax.swing.JComboBox<String> cbGioiTinh;
+    private javax.swing.JComboBox<String> cbQueQuan;
+    private javax.swing.ButtonGroup grGioiTinh;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JLabel lbCMND;
     private javax.swing.JLabel lbDanToc;
@@ -379,12 +396,13 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
     private javax.swing.JLabel lbNgaySinh;
     private javax.swing.JLabel lbQueQuan;
     private javax.swing.JLabel lbSoDienThoai;
+    private javax.swing.JRadioButton rdoNam;
+    private javax.swing.JRadioButton rdoNu;
     private javax.swing.JTextField txtCMND;
     private javax.swing.JTextField txtDanToc;
     private javax.swing.JTextField txtHoTen;
     private javax.swing.JTextField txtMaThiSinh;
     private javax.swing.JTextField txtNgaySinh;
-    private javax.swing.JTextField txtQueQuan;
     private javax.swing.JTextField txtSoDienThoai;
     // End of variables declaration//GEN-END:variables
 }

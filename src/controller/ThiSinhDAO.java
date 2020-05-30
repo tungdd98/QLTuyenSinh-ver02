@@ -1,9 +1,6 @@
 package controller;
 
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import entity.ThiSinh;
 
@@ -13,29 +10,33 @@ import entity.ThiSinh;
  */
 public class ThiSinhDAO extends DAO {
 
-    private String orderBy = "hoTen";
-    private String orderDir = "DESC";
+    private final String orderBy = "hoTen";
+    private final String orderDir = "DESC";
+    private final String table = "thi_sinh";
 
     public ThiSinhDAO() {
         super();
     }
 
-    public boolean addItem(ThiSinh ts) {
-        String sql = "INSERT INTO thi_sinh(maThiSinh, hoTen, ngaySinh, gioiTinh, CMND, danToc, soDienThoai, queQuan) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+    public boolean addItem(ThiSinh item) {
+        String sql = "INSERT INTO " + table + "(maThiSinh, hoTen, ngaySinh, gioiTinh, CMND, danToc, soDienThoai, queQuan) VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
 
-            ps.setString(1, ts.getMaThiSinh());
-            ps.setString(2, ts.getHoTen());
-            ps.setDate(3, new Date(ts.getNgaySinh().getTime()));
-            ps.setString(4, ts.getGioiTinh());
-            ps.setString(5, ts.getCMND());
-            ps.setString(6, ts.getDanToc());
-            ps.setString(7, ts.getSoDienThoai());
-            ps.setString(8, ts.getQueQuan());
-
-            return ps.executeUpdate() > 0;
+            ps.setString(1, item.getMaThiSinh());
+            ps.setString(2, item.getHoTen());
+            ps.setDate(3, new Date(item.getNgaySinh().getTime()));
+            ps.setInt(4, item.getGioiTinh());
+            ps.setString(5, item.getCMND());
+            ps.setString(6, item.getDanToc());
+            ps.setString(7, item.getSoDienThoai());
+            ps.setString(8, item.getQueQuan());
+            
+            int isSuccess = ps.executeUpdate();
+            ps.close();
+            conn.close();
+            return isSuccess > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -43,21 +44,24 @@ public class ThiSinhDAO extends DAO {
         return false;
     }
 
-    public boolean updateItem(ThiSinh ts) {
-        String sql = "UPDATE thi_sinh SET hoTen = ?, ngaySinh = ?, gioiTinh = ?, CMND = ?, danToc = ?, soDienThoai = ?, queQuan = ? WHERE maThiSinh = ?";
+    public boolean updateItem(ThiSinh item) {
+        String sql = "UPDATE " + table + " SET hoTen = ?, ngaySinh = ?, gioiTinh = ?, CMND = ?, danToc = ?, soDienThoai = ?, queQuan = ? WHERE maThiSinh = ?";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, ts.getHoTen());
-            ps.setDate(2, new Date(ts.getNgaySinh().getTime()));
-            ps.setString(3, ts.getGioiTinh());
-            ps.setString(4, ts.getCMND());
-            ps.setString(5, ts.getDanToc());
-            ps.setString(6, ts.getSoDienThoai());
-            ps.setString(7, ts.getQueQuan());
-            ps.setString(8, ts.getMaThiSinh());
+            ps.setString(1, item.getHoTen());
+            ps.setDate(2, new Date(item.getNgaySinh().getTime()));
+            ps.setInt(3, item.getGioiTinh());
+            ps.setString(4, item.getCMND());
+            ps.setString(5, item.getDanToc());
+            ps.setString(6, item.getSoDienThoai());
+            ps.setString(7, item.getQueQuan());
+            ps.setString(8, item.getMaThiSinh());
 
-            return ps.executeUpdate() > 0;
+            int isSuccess = ps.executeUpdate();
+            ps.close();
+            conn.close();
+            return isSuccess > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -65,14 +69,17 @@ public class ThiSinhDAO extends DAO {
         return false;
     }
 
-    public boolean deleteItem(ThiSinh ts) {
-        String sql = "DELETE FROM thi_sinh WHERE maThiSinh = ?";
+    public boolean deleteItem(ThiSinh item) {
+        String sql = "DELETE FROM " + table + " WHERE maThiSinh = ?";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, ts.getMaThiSinh());
+            ps.setString(1, item.getMaThiSinh());
 
-            return ps.executeUpdate() > 0;
+            int isSuccess = ps.executeUpdate();
+            ps.close();
+            conn.close();
+            return isSuccess > 0;
         } catch (SQLException e) {
         }
 
@@ -81,26 +88,30 @@ public class ThiSinhDAO extends DAO {
 
     public ArrayList<ThiSinh> getListItem() {
         ArrayList<ThiSinh> items = new ArrayList<>();
-        String sql = "SELECT * FROM thi_sinh ORDER BY " + orderBy + " " + orderDir;
+        String sql = "SELECT * FROM " + table + " ORDER BY " + orderBy + " " + orderDir;
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                ThiSinh ts = new ThiSinh();
-                ts.setMaThiSinh(rs.getString("maThiSinh"));
-                ts.setHoTen(rs.getString("hoTen"));
-                ts.setNgaySinh(rs.getDate("ngaySinh"));
-                ts.setGioiTinh(rs.getString("gioiTinh"));
-                ts.setDanToc(rs.getString("danToc"));
-                ts.setCMND(rs.getString("CMND"));
-                ts.setSoDienThoai(rs.getString("soDienThoai"));
-                ts.setQueQuan(rs.getString("queQuan"));
+                ThiSinh item = new ThiSinh();
+                item.setMaThiSinh(rs.getString("maThiSinh"));
+                item.setHoTen(rs.getString("hoTen"));
+                item.setNgaySinh(rs.getDate("ngaySinh"));
+                item.setGioiTinh(rs.getInt("gioiTinh"));
+                item.setDanToc(rs.getString("danToc"));
+                item.setCMND(rs.getString("CMND"));
+                item.setSoDienThoai(rs.getString("soDienThoai"));
+                item.setQueQuan(rs.getString("queQuan"));
 
-                items.add(ts);
+                items.add(item);
             }
+            rs.close();
+            ps.close();
+            conn.close();
         } catch (SQLException e) {
+            e.printStackTrace();
         }
         return items;
     }
@@ -110,32 +121,36 @@ public class ThiSinhDAO extends DAO {
         String sql = "";
         switch (field) {
             case "maThiSinh":
-                sql = "SELECT * from thi_sinh WHERE maThiSinh = ?";
+                sql = "SELECT * from " + table + " WHERE maThiSinh = ?";
                 break;
             case "CMND":
-                sql = "SELECT * from thi_sinh WHERE CMND = ?";
+                sql = "SELECT * from " + table + " WHERE CMND = ?";
                 break;
             case "hoTen":
-                sql = "SELECT * FROM thi_sinh WHERE hoTen LIKE % ? %";
+                sql = "SELECT * FROM " + table + " WHERE hoTen LIKE '%?%'";
                 break;
         }
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, query);
             ResultSet rs = ps.executeQuery();
+            
             while (rs.next()) {
-                ThiSinh ts = new ThiSinh();
-                ts.setMaThiSinh(rs.getString("maThiSinh"));
-                ts.setHoTen(rs.getString("hoTen"));
-                ts.setNgaySinh(rs.getDate("ngaySinh"));
-                ts.setGioiTinh(rs.getString("gioiTinh"));
-                ts.setDanToc(rs.getString("danToc"));
-                ts.setCMND(rs.getString("CMND"));
-                ts.setSoDienThoai(rs.getString("soDienThoai"));
-                ts.setQueQuan(rs.getString("queQuan"));
+                ThiSinh item = new ThiSinh();
+                item.setMaThiSinh(rs.getString("maThiSinh"));
+                item.setHoTen(rs.getString("hoTen"));
+                item.setNgaySinh(rs.getDate("ngaySinh"));
+                item.setGioiTinh(rs.getInt("gioiTinh"));
+                item.setDanToc(rs.getString("danToc"));
+                item.setCMND(rs.getString("CMND"));
+                item.setSoDienThoai(rs.getString("soDienThoai"));
+                item.setQueQuan(rs.getString("queQuan"));
 
-                items.add(ts);
+                items.add(item);
             }
+            rs.close();
+            ps.close();
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

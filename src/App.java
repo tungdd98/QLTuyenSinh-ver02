@@ -1,5 +1,5 @@
-import view.TrangChuFrm;
 
+import view.TrangChuFrm;
 
 /**
  *
@@ -7,7 +7,6 @@ import view.TrangChuFrm;
  */
 public class App {
     public static void main(String[] args) {
-        TrangChuFrm trangChu = new TrangChuFrm();
-        trangChu.setVisible(true);
+        new TrangChuFrm().setVisible(true);
     }
 }

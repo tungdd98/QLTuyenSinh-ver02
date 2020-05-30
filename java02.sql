@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 25, 2020 at 05:13 PM
+-- Generation Time: May 30, 2020 at 04:23 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -29,7 +29,6 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `diem_thi` (
-  `id` int(11) NOT NULL,
   `thiSinh_id` varchar(30) NOT NULL,
   `monThi_id` int(11) NOT NULL,
   `diem` varchar(30) NOT NULL
@@ -39,37 +38,11 @@ CREATE TABLE `diem_thi` (
 -- Dumping data for table `diem_thi`
 --
 
-INSERT INTO `diem_thi` (`id`, `thiSinh_id`, `monThi_id`, `diem`) VALUES
-(538, '2017603573', 1, '10'),
-(539, '2017603573', 2, '10'),
-(540, '2017603573', 3, '10'),
-(541, '2017603573', 4, '9'),
-(542, '2017603573', 5, '10'),
-(543, '2017603573', 2, '10'),
-(544, '2017603573', 3, '10'),
-(545, '2017603573', 4, '9'),
-(546, '2017603573', 5, '10'),
-(547, '2017603573', 1, '10'),
-(548, '2017603573', 3, '10'),
-(549, '2017603573', 4, '9'),
-(550, '2017603573', 5, '10'),
-(551, '2017603573', 1, '10'),
-(552, '2017603573', 2, '10'),
-(553, '2017603573', 4, '9'),
-(554, '2017603573', 5, '10'),
-(555, '2017603573', 1, '10'),
-(556, '2017603573', 2, '10'),
-(557, '2017603573', 3, '10'),
-(558, '2017603573', 5, '10'),
-(559, '2017603573', 1, '10'),
-(560, '2017603573', 2, '10'),
-(561, '2017603573', 3, '10'),
-(562, '2017603573', 4, '9'),
-(563, '2019', 1, '1'),
-(564, '2019', 2, '1'),
-(565, '2019', 3, '1'),
-(566, '2019', 4, '1'),
-(567, '2019', 5, '1');
+INSERT INTO `diem_thi` (`thiSinh_id`, `monThi_id`, `diem`) VALUES
+('2017696356', 2, '9'),
+('2017696356', 3, '7'),
+('2017696356', 4, '10'),
+('2017696356', 5, '10');
 
 -- --------------------------------------------------------
 
@@ -78,21 +51,20 @@ INSERT INTO `diem_thi` (`id`, `thiSinh_id`, `monThi_id`, `diem`) VALUES
 --
 
 CREATE TABLE `diem_tuyen_sinh` (
-  `id` int(11) NOT NULL,
   `maNganh` varchar(30) NOT NULL,
-  `diemChuan` float NOT NULL,
-  `chiTieu` int(11) NOT NULL,
-  `namThi` varchar(30) DEFAULT NULL
+  `diemChuan` varchar(30) NOT NULL,
+  `chiTieu` varchar(30) NOT NULL,
+  `namThi` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `diem_tuyen_sinh`
 --
 
-INSERT INTO `diem_tuyen_sinh` (`id`, `maNganh`, `diemChuan`, `chiTieu`, `namThi`) VALUES
-(11, 'HTTT', 23, 300, '2019'),
-(12, 'KTPM', 21, 400, '2020'),
-(13, 'Dulich', 26, 400, '2020');
+INSERT INTO `diem_tuyen_sinh` (`maNganh`, `diemChuan`, `chiTieu`, `namThi`) VALUES
+('cokhi', '23', '200', '2020'),
+('HTTT', '23', '300', '2019'),
+('KTPM', '21', '400', '2020');
 
 -- --------------------------------------------------------
 
@@ -132,10 +104,8 @@ CREATE TABLE `monthi_khoithi` (
 --
 
 INSERT INTO `monthi_khoithi` (`id`, `monThi_id`, `khoiThi_id`) VALUES
-(1, 1, 1),
 (2, 4, 1),
 (3, 5, 1),
-(4, 1, 3),
 (5, 2, 3);
 
 -- --------------------------------------------------------
@@ -154,11 +124,11 @@ CREATE TABLE `mon_thi` (
 --
 
 INSERT INTO `mon_thi` (`maMon`, `tenMon`) VALUES
-(1, 'Toán'),
 (2, 'Văn'),
 (3, 'Anh'),
 (4, 'Lý'),
-(5, 'Hoá');
+(5, 'Hoá'),
+(6, 'Toán');
 
 -- --------------------------------------------------------
 
@@ -176,6 +146,7 @@ CREATE TABLE `nganh_thi` (
 --
 
 INSERT INTO `nganh_thi` (`maNganh`, `tenNganh`) VALUES
+('cokhi', 'Cơ khí'),
 ('Dulich', 'Du lịch'),
 ('HTTT', 'Công nghệ thông tin'),
 ('KTPM', 'Kỹ thuật phần mềm');
@@ -190,7 +161,7 @@ CREATE TABLE `thi_sinh` (
   `maThiSinh` varchar(30) NOT NULL,
   `hoTen` varchar(255) NOT NULL,
   `ngaySinh` date NOT NULL,
-  `gioiTinh` varchar(10) NOT NULL,
+  `gioiTinh` int(2) NOT NULL,
   `CMND` varchar(30) NOT NULL,
   `danToc` varchar(80) DEFAULT NULL,
   `soDienThoai` varchar(30) DEFAULT NULL,
@@ -202,8 +173,9 @@ CREATE TABLE `thi_sinh` (
 --
 
 INSERT INTO `thi_sinh` (`maThiSinh`, `hoTen`, `ngaySinh`, `gioiTinh`, `CMND`, `danToc`, `soDienThoai`, `queQuan`) VALUES
-('2017603573', 'Đặng Đức Tùng', '1998-01-09', 'Nam', '789654123', 'Kinh', '0973793711', 'Hà Nội'),
-('2019', 'Vàng ăn cứt', '2021-07-04', 'Nam', '8998989', 'Kinh', '', '');
+('201589522', 'Vàng ăn cứt', '1999-01-09', 1, '98989898989', 'Kinh', '89898989', 'Hà Nội'),
+('20176548963', 'Đặng Đức Tùng', '1998-01-09', 1, '001098009473', 'Kinh', '987456321', 'Hà Nội'),
+('2017696356', 'Đặng Đức Tùng', '1998-01-09', 1, '001098009473', 'Kinh', '0973793711', 'Hà Nội');
 
 --
 -- Indexes for dumped tables
@@ -213,16 +185,14 @@ INSERT INTO `thi_sinh` (`maThiSinh`, `hoTen`, `ngaySinh`, `gioiTinh`, `CMND`, `d
 -- Indexes for table `diem_thi`
 --
 ALTER TABLE `diem_thi`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `monThi_id` (`monThi_id`),
-  ADD KEY `thiSinh_id` (`thiSinh_id`);
+  ADD PRIMARY KEY (`thiSinh_id`,`monThi_id`),
+  ADD KEY `monThi_id` (`monThi_id`);
 
 --
 -- Indexes for table `diem_tuyen_sinh`
 --
 ALTER TABLE `diem_tuyen_sinh`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `maNganh` (`maNganh`);
+  ADD PRIMARY KEY (`maNganh`,`namThi`);
 
 --
 -- Indexes for table `khoi_thi`
@@ -261,18 +231,6 @@ ALTER TABLE `thi_sinh`
 --
 
 --
--- AUTO_INCREMENT for table `diem_thi`
---
-ALTER TABLE `diem_thi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=568;
-
---
--- AUTO_INCREMENT for table `diem_tuyen_sinh`
---
-ALTER TABLE `diem_tuyen_sinh`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
-
---
 -- AUTO_INCREMENT for table `khoi_thi`
 --
 ALTER TABLE `khoi_thi`
@@ -288,7 +246,7 @@ ALTER TABLE `monthi_khoithi`
 -- AUTO_INCREMENT for table `mon_thi`
 --
 ALTER TABLE `mon_thi`
-  MODIFY `maMon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `maMon` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- Constraints for dumped tables

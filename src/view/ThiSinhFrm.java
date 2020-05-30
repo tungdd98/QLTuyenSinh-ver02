@@ -1,14 +1,12 @@
 package view;
 
-import controller.DiemThiDAO;
 import controller.ThiSinhDAO;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import entity.DiemThi;
 import entity.ThiSinh;
+import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
-import javax.swing.JComboBox;
 
 /**
  *
@@ -39,9 +37,9 @@ public class ThiSinhFrm extends javax.swing.JFrame {
      */
     public void showTable() {
         model.setRowCount(0);
-        for (ThiSinh ts : items) {
+        for (ThiSinh item : items) {
             model.addRow(new Object[]{
-                model.getRowCount() + 1, ts.getMaThiSinh(), ts.getHoTen(), new SimpleDateFormat("dd/MM/yyyy").format(ts.getNgaySinh()), ts.getGioiTinh(), ts.getCMND(), ts.getDanToc(), ts.getSoDienThoai(), ts.getQueQuan()
+                model.getRowCount() + 1, item.getMaThiSinh(), item.getHoTen(), new SimpleDateFormat("dd/MM/yyyy").format(item.getNgaySinh()), item.getGioiTinh() == 1 ? "Nam" : "Nữ", item.getCMND(), item.getDanToc(), item.getSoDienThoai(), item.getQueQuan()
             });
         }
     }
@@ -51,8 +49,8 @@ public class ThiSinhFrm extends javax.swing.JFrame {
      *
      * @param ts
      */
-    public void addItem(ThiSinh ts) {
-        items.add(ts);
+    public void addItem(ThiSinh item) {
+        items.add(item);
         showTable();
     }
 
@@ -61,9 +59,9 @@ public class ThiSinhFrm extends javax.swing.JFrame {
      *
      * @param ts
      */
-    public void updateItem(ThiSinh ts) {
+    public void updateItem(ThiSinh item) {
         items.remove(selectedIndex);
-        items.add(ts);
+        items.add(item);
         showTable();
     }
 
@@ -84,18 +82,18 @@ public class ThiSinhFrm extends javax.swing.JFrame {
         btnDelete = new javax.swing.JButton();
         btnScore = new javax.swing.JButton();
         cbFilter = new javax.swing.JComboBox<>();
-        btnSearch = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblThiSinh = new javax.swing.JTable();
+        txtSearch = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Quản lý thí sinh");
 
-        jLabel1.setFont(new java.awt.Font("Consolas", 1, 16)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Quản lý thí sinh");
 
-        btnBackHome.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        btnBackHome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnBackHome.setText("Trang chủ");
         btnBackHome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -103,7 +101,7 @@ public class ThiSinhFrm extends javax.swing.JFrame {
             }
         });
 
-        btnAddNew.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        btnAddNew.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAddNew.setText("Thêm mới");
         btnAddNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -111,7 +109,7 @@ public class ThiSinhFrm extends javax.swing.JFrame {
             }
         });
 
-        btnUpdate.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        btnUpdate.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnUpdate.setText("Cập nhật");
         btnUpdate.setEnabled(false);
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
@@ -120,7 +118,7 @@ public class ThiSinhFrm extends javax.swing.JFrame {
             }
         });
 
-        btnDelete.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        btnDelete.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnDelete.setText("Xoá");
         btnDelete.setEnabled(false);
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -129,7 +127,7 @@ public class ThiSinhFrm extends javax.swing.JFrame {
             }
         });
 
-        btnScore.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        btnScore.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnScore.setText("Điểm thi");
         btnScore.setEnabled(false);
         btnScore.addActionListener(new java.awt.event.ActionListener() {
@@ -138,17 +136,10 @@ public class ThiSinhFrm extends javax.swing.JFrame {
             }
         });
 
-        cbFilter.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        cbFilter.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         cbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã thí sinh", "Họ và tên", "CMND" }));
 
-        btnSearch.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
-        btnSearch.setText("Tìm kiếm");
-        btnSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSearchActionPerformed(evt);
-            }
-        });
-
+        tblThiSinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblThiSinh.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -163,6 +154,14 @@ public class ThiSinhFrm extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(tblThiSinh);
+
+        txtSearch.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
+        txtSearch.setText("Tìm kiếm");
+        txtSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSearchKeyPressed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -179,7 +178,7 @@ public class ThiSinhFrm extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(cbFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnScore, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -199,15 +198,15 @@ public class ThiSinhFrm extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBackHome, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(7, 7, 7)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAddNew, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnScore, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
+                    .addComponent(txtSearch, javax.swing.GroupLayout.DEFAULT_SIZE, 35, Short.MAX_VALUE))
+                .addGap(23, 23, 23)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE))
         );
 
@@ -228,7 +227,7 @@ public class ThiSinhFrm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Trở về trang chủ
+     * Sự kiện trở về trang chủ
      *
      * @param evt
      */
@@ -253,15 +252,9 @@ public class ThiSinhFrm extends javax.swing.JFrame {
      * @param evt
      */
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        selectedIndex = tblThiSinh.getSelectedRow();
-
-        if (selectedIndex == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn thí sinh cần nhập điểm");
-        } else {
-            ThiSinhFormFrm form = new ThiSinhFormFrm(this, rootPaneCheckingEnabled);
-            form.getSelectedItem(true, items.get(selectedIndex));
-            form.setVisible(true);
-        }
+        ThiSinhFormFrm form = new ThiSinhFormFrm(this, rootPaneCheckingEnabled);
+        form.getSelectedItem(true, items.get(selectedIndex));
+        form.setVisible(true);
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     /**
@@ -270,10 +263,19 @@ public class ThiSinhFrm extends javax.swing.JFrame {
      * @param evt
      */
     private void tblThiSinhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblThiSinhMouseClicked
-        btnUpdate.setEnabled(true);
-        btnDelete.setEnabled(true);
-        btnScore.setEnabled(true);
+        selectedIndex = tblThiSinh.getSelectedRow();
 
+        if (selectedIndex > -1) {
+            btnUpdate.setEnabled(true);
+            btnDelete.setEnabled(true);
+            btnScore.setEnabled(true);
+            btnAddNew.setEnabled(false);
+        } else {
+            btnUpdate.setEnabled(false);
+            btnDelete.setEnabled(false);
+            btnScore.setEnabled(false);
+            btnAddNew.setEnabled(true);
+        }
     }//GEN-LAST:event_tblThiSinhMouseClicked
 
     /**
@@ -282,20 +284,14 @@ public class ThiSinhFrm extends javax.swing.JFrame {
      * @param evt
      */
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        int removeIndex = tblThiSinh.getSelectedRow();
-
-        if (removeIndex == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn thí sinh cần xoá");
-        } else {
-            int isDelete = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xoá?");
-            if (isDelete == 0) {
-                if (new ThiSinhDAO().deleteItem(items.get(removeIndex))) {
-                    items.remove(removeIndex);
-                    JOptionPane.showMessageDialog(this, "Xoá thành công!");
-                    showTable();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Có lỗi xảy ra!");
-                }
+        int isDelete = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xoá?");
+        if (isDelete == 0) {
+            if (new ThiSinhDAO().deleteItem(items.get(selectedIndex))) {
+                items.remove(selectedIndex);
+                JOptionPane.showMessageDialog(this, "Xoá thành công!");
+                showTable();
+            } else {
+                JOptionPane.showMessageDialog(this, "Có lỗi xảy ra!");
             }
         }
 
@@ -307,49 +303,45 @@ public class ThiSinhFrm extends javax.swing.JFrame {
      * @param evt
      */
     private void btnScoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnScoreActionPerformed
-        selectedIndex = tblThiSinh.getSelectedRow();
-
-        if (selectedIndex == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn thí sinh cần nhập điểm");
-        } else {
-            String maThiSinh = items.get(selectedIndex).getMaThiSinh();
-            DiemThiFormFrm form = new DiemThiFormFrm(this, rootPaneCheckingEnabled);
-
-            ArrayList<DiemThi> listScore = new DiemThiDAO().getListItem(maThiSinh);
-            form.setData(listScore, maThiSinh);
-            form.setVisible(true);
-        }
-
+        String maThiSinh = items.get(selectedIndex).getMaThiSinh();
+        DiemThiFrm form = new DiemThiFrm(this, rootPaneCheckingEnabled);
+        form.setData(maThiSinh);
+        form.setVisible(true);
     }//GEN-LAST:event_btnScoreActionPerformed
 
     /**
-     * Tìm kiếm
-     *
-     * @param evt
+     * Sự kiện tìm kiếm
+     * @param evt 
      */
-    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
-        String chosen = cbFilter.getSelectedItem().toString();
-        String query = JOptionPane.showInputDialog(rootPane, "Tìm kiếm theo " + chosen);
-        System.out.println("Query" + query);
-        if (!"".equals(query) && query != null) {
-            switch (chosen) {
-                case "Họ tên":
-                    items = new ThiSinhDAO().searchItem(query.trim(), "hoTen");
-                    showTable();
-                    break;
+    private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            String chosen = cbFilter.getSelectedItem().toString();
+            String query = txtSearch.getText().trim();
 
-                case "CMND":
-                    items = new ThiSinhDAO().searchItem(query.trim(), "CMND");
-                    showTable();
-                    break;
+            if (!"".equals(query) && query != null) {
+                switch (chosen) {
+                    case "Họ tên":
+                        items = new ThiSinhDAO().searchItem(query.trim(), "hoTen");
+                        showTable();
+                        break;
 
-                default:
-                    items = new ThiSinhDAO().searchItem(query.trim(), "maThiSinh");
-                    showTable();
-                    break;
+                    case "CMND":
+                        items = new ThiSinhDAO().searchItem(query.trim(), "CMND");
+                        showTable();
+                        break;
+
+                    default:
+                        items = new ThiSinhDAO().searchItem(query.trim(), "maThiSinh");
+                        showTable();
+                        break;
+                }
+            } else {
+                items = new ThiSinhDAO().getListItem();
+                showTable();
             }
         }
-    }//GEN-LAST:event_btnSearchActionPerformed
+
+    }//GEN-LAST:event_txtSearchKeyPressed
 
     /**
      * @param args the command line arguments
@@ -391,12 +383,12 @@ public class ThiSinhFrm extends javax.swing.JFrame {
     private javax.swing.JButton btnBackHome;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnScore;
-    private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cbFilter;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblThiSinh;
+    private javax.swing.JTextField txtSearch;
     // End of variables declaration//GEN-END:variables
 }

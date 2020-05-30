@@ -1,50 +1,24 @@
 package entity;
 
-import java.util.Date;
-
 /**
  *
  * @author tungdd
  */
 public class DiemTuyenSinh {
 
-    private int id;
-
     private String maNganh;
-    private float diemChuan;
-    private int chiTieu;
+    private String diemChuan;
+    private String chiTieu;
     private String namThi;
 
-    public DiemTuyenSinh(String maNganh, float diemChuan, int chiTieu, String namThi) {
+    public DiemTuyenSinh(String maNganh, String diemChuan, String chiTieu, String namThi) {
         this.maNganh = maNganh;
         this.diemChuan = diemChuan;
         this.chiTieu = chiTieu;
         this.namThi = namThi;
-    }
-
-    public DiemTuyenSinh(int id, String maNganh, float diemChuan, int chiTieu, String namThi) {
-        this.id = id;
-        this.maNganh = maNganh;
-        this.diemChuan = diemChuan;
-        this.chiTieu = chiTieu;
-        this.namThi = namThi;
-    }
-
-    public DiemTuyenSinh(String maNganh, float diemChuan, int chiTieu) {
-        this.maNganh = maNganh;
-        this.diemChuan = diemChuan;
-        this.chiTieu = chiTieu;
     }
 
     public DiemTuyenSinh() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getMaNganh() {
@@ -55,19 +29,19 @@ public class DiemTuyenSinh {
         this.maNganh = maNganh;
     }
 
-    public float getDiemChuan() {
+    public String getDiemChuan() {
         return diemChuan;
     }
 
-    public void setDiemChuan(float diemChuan) {
+    public void setDiemChuan(String diemChuan) {
         this.diemChuan = diemChuan;
     }
 
-    public int getChiTieu() {
+    public String getChiTieu() {
         return chiTieu;
     }
 
-    public void setChiTieu(int chiTieu) {
+    public void setChiTieu(String chiTieu) {
         this.chiTieu = chiTieu;
     }
 

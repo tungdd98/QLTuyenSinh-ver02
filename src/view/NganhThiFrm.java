@@ -1,13 +1,10 @@
 package view;
 
 import controller.NganhThiDAO;
-import controller.ThiSinhDAO;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import entity.NganhThi;
-import entity.ThiSinh;
-import java.text.SimpleDateFormat;
 
 /**
  *
@@ -47,16 +44,18 @@ public class NganhThiFrm extends javax.swing.JFrame {
 
     /**
      * Thêm mới vào arraylist
-     * @param ts 
+     *
+     * @param ts
      */
     public void addItem(NganhThi item) {
         items.add(item);
         showTable();
     }
-    
+
     /**
      * Cập nhật vào arraylist
-     * @param ts 
+     *
+     * @param ts
      */
     public void updateItem(NganhThi item) {
         items.remove(selectedIndex);
@@ -85,11 +84,11 @@ public class NganhThiFrm extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Quản lý thí sinh");
 
-        jLabel1.setFont(new java.awt.Font("Consolas", 1, 16)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Quản lý ngành thi");
 
-        btnBackHome.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        btnBackHome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnBackHome.setText("Trang chủ");
         btnBackHome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -97,7 +96,7 @@ public class NganhThiFrm extends javax.swing.JFrame {
             }
         });
 
-        btnAddNew.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        btnAddNew.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnAddNew.setText("Thêm mới");
         btnAddNew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -105,7 +104,7 @@ public class NganhThiFrm extends javax.swing.JFrame {
             }
         });
 
-        btnUpdate.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        btnUpdate.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnUpdate.setText("Cập nhật");
         btnUpdate.setEnabled(false);
         btnUpdate.addActionListener(new java.awt.event.ActionListener() {
@@ -114,7 +113,7 @@ public class NganhThiFrm extends javax.swing.JFrame {
             }
         });
 
-        btnDelete.setFont(new java.awt.Font("Consolas", 1, 12)); // NOI18N
+        btnDelete.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnDelete.setText("Xoá");
         btnDelete.setEnabled(false);
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
@@ -123,6 +122,7 @@ public class NganhThiFrm extends javax.swing.JFrame {
             }
         });
 
+        tblNganhThi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblNganhThi.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -194,8 +194,9 @@ public class NganhThiFrm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Trở về trang chủ
-     * @param evt 
+     * Sự kiện trở về trang chủ
+     *
+     * @param evt
      */
     private void btnBackHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackHomeActionPerformed
         new TrangChuFrm().setVisible(true);
@@ -204,7 +205,8 @@ public class NganhThiFrm extends javax.swing.JFrame {
 
     /**
      * Sự kiện thêm mới
-     * @param evt 
+     *
+     * @param evt
      */
     private void btnAddNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddNewActionPerformed
         NganhThiFormFrm form = new NganhThiFormFrm(this, rootPaneCheckingEnabled);
@@ -213,49 +215,50 @@ public class NganhThiFrm extends javax.swing.JFrame {
 
     /**
      * Sự kiện cập nhật
-     * @param evt 
+     *
+     * @param evt
      */
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        selectedIndex = tblNganhThi.getSelectedRow();
-
-        if (selectedIndex == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn thí sinh cần nhập điểm");
-        } else {
-            NganhThiFormFrm form = new NganhThiFormFrm(this, rootPaneCheckingEnabled);
-            form.getSelectedItem(true, items.get(selectedIndex));
-            form.setVisible(true);
-        }
+        NganhThiFormFrm form = new NganhThiFormFrm(this, rootPaneCheckingEnabled);
+        form.getSelectedItem(true, items.get(selectedIndex));
+        form.setVisible(true);
     }//GEN-LAST:event_btnUpdateActionPerformed
-    
+
     /**
      * Sự kiện hiển thị dữ liệu khi bấm vào hàng trong bảng
-     * @param evt 
+     *
+     * @param evt
      */
     private void tblNganhThiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNganhThiMouseClicked
-        btnUpdate.setEnabled(true);
-        btnDelete.setEnabled(true);
+        selectedIndex = tblNganhThi.getSelectedRow();
+
+        if (selectedIndex > -1) {
+            btnUpdate.setEnabled(true);
+            btnDelete.setEnabled(true);
+            btnAddNew.setEnabled(false);
+        } else {
+            btnUpdate.setEnabled(false);
+            btnDelete.setEnabled(false);
+            btnAddNew.setEnabled(true);
+        }
 
     }//GEN-LAST:event_tblNganhThiMouseClicked
 
     /**
      * Sự kiện xoá phần tử
-     * @param evt 
+     *
+     * @param evt
      */
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        int removeIndex = tblNganhThi.getSelectedRow();
-
-        if (removeIndex == -1) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn thí sinh cần xoá");
-        } else {
-            int isDelete = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xoá?");
-            if (isDelete == 0) {
-                if (new NganhThiDAO().deleteItem(items.get(removeIndex))) {
-                    items.remove(removeIndex);
-                    JOptionPane.showMessageDialog(this, "Xoá thành công!");
-                    showTable();
-                } else {
-                    JOptionPane.showMessageDialog(this, "Có lỗi xảy ra!");
-                }
+        int isDelete = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xoá?");
+        
+        if (isDelete == 0) {
+            if (new NganhThiDAO().deleteItem(items.get(selectedIndex))) {
+                items.remove(selectedIndex);
+                JOptionPane.showMessageDialog(this, "Xoá thành công!");
+                showTable();
+            } else {
+                JOptionPane.showMessageDialog(this, "Có lỗi xảy ra!");
             }
         }
 
