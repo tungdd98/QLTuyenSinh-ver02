@@ -1,25 +1,25 @@
 package controller;
 
+import entity.KhoiThi;
 import java.sql.*;
 import java.util.ArrayList;
-import entity.MonThi;
 
 /**
  *
  * @author tungdd
  */
-public class MonThiDAO extends DAO {
+public class KhoiThiDAO extends DAO {
 
-    private final String orderBy = "tenMon";
+    private final String orderBy = "tenKhoi";
     private final String orderDir = "ASC";
-    private final String table = "mon_thi";
+    private final String table = "khoi_thi";
 
-    public MonThiDAO() {
+    public KhoiThiDAO() {
         super();
     }
 
-    public ArrayList<MonThi> getListItem() {
-        ArrayList<MonThi> items = new ArrayList<>();
+    public ArrayList<KhoiThi> getListItem() {
+        ArrayList<KhoiThi> items = new ArrayList<>();
         String sql = "SELECT * FROM " + table + " ORDER BY " + orderBy + " " + orderDir;
 
         try {
@@ -27,10 +27,10 @@ public class MonThiDAO extends DAO {
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                MonThi item = new MonThi();
+                KhoiThi item = new KhoiThi();
 
-                item.setMaMon(rs.getInt("maMon"));
-                item.setTenMon(rs.getString("tenMon"));
+                item.setMaKhoi(rs.getInt("maKhoi"));
+                item.setTenKhoi(rs.getString("tenKhoi"));
 
                 items.add(item);
             }

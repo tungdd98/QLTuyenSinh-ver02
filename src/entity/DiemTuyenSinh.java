@@ -10,12 +10,16 @@ public class DiemTuyenSinh {
     private String diemChuan;
     private String chiTieu;
     private String namThi;
+    private int khoiThi_id;
+    private String tenKhoi;
 
-    public DiemTuyenSinh(String maNganh, String diemChuan, String chiTieu, String namThi) {
+    public DiemTuyenSinh(String maNganh, String diemChuan, String chiTieu, String namThi, int khoiThi_id, String tenKhoi) {
         this.maNganh = maNganh;
         this.diemChuan = diemChuan;
         this.chiTieu = chiTieu;
         this.namThi = namThi;
+        this.khoiThi_id = khoiThi_id;
+        this.tenKhoi = tenKhoi;
     }
 
     public DiemTuyenSinh() {
@@ -51,5 +55,21 @@ public class DiemTuyenSinh {
 
     public void setNamThi(String namThi) {
         this.namThi = namThi;
+    }
+
+    public int getKhoiThi_id() {
+        return khoiThi_id;
+    }
+
+    public void setKhoiThi_id(int khoiThi_id) {
+        this.khoiThi_id = khoiThi_id;
+    }
+
+    public String getTenKhoi() {
+        return tenKhoi;
+    }
+
+    public void setTenKhoi(String tenKhoi) {
+        this.tenKhoi = tenKhoi;
     }
 }

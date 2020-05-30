@@ -19,7 +19,7 @@ public class DiemTuyenSinhDAO extends DAO {
     }
 
     public boolean addItem(DiemTuyenSinh item) {
-        String sql = "INSERT INTO " + table + "(maNganh, diemChuan, chiTieu, namThi) VALUES(?, ?, ?, ?)";
+        String sql = "INSERT INTO " + table + "(maNganh, diemChuan, chiTieu, namThi, khoiThi_id) VALUES(?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -28,6 +28,7 @@ public class DiemTuyenSinhDAO extends DAO {
             ps.setString(2, item.getDiemChuan());
             ps.setString(3, item.getChiTieu());
             ps.setString(4, item.getNamThi());
+            ps.setInt(5, item.getKhoiThi_id());
 
             int isSuccess = ps.executeUpdate();
             ps.close();
@@ -60,12 +61,13 @@ public class DiemTuyenSinhDAO extends DAO {
     }
 
     public boolean deleteItem(DiemTuyenSinh item) {
-        String sql = "DELETE FROM " + table + " WHERE maNganh = ? AND namThi = ?";
+        String sql = "DELETE FROM " + table + " WHERE maNganh = ? AND namThi = ? AND khoiThi_id = ?";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, item.getMaNganh());
             ps.setString(2, item.getNamThi());
+            ps.setInt(3, item.getKhoiThi_id());
 
             int isSuccess = ps.executeUpdate();
             ps.close();
@@ -80,7 +82,7 @@ public class DiemTuyenSinhDAO extends DAO {
 
     public ArrayList<DiemTuyenSinh> getListItem() {
         ArrayList<DiemTuyenSinh> items = new ArrayList<>();
-        String sql = "SELECT * FROM " + table + " ORDER BY " + orderBy + " " + orderDir;
+        String sql = "SELECT * FROM " + table + " INNER JOIN khoi_thi ON diem_tuyen_sinh.khoiThi_id = khoi_thi.maKhoi ORDER BY " + orderBy + " " + orderDir;
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -93,6 +95,8 @@ public class DiemTuyenSinhDAO extends DAO {
                 item.setDiemChuan(rs.getString("diemChuan"));
                 item.setChiTieu(rs.getString("chiTieu"));
                 item.setNamThi(rs.getString("namThi"));
+                item.setKhoiThi_id(rs.getInt("khoiThi_id"));
+                item.setTenKhoi(rs.getString("tenKhoi"));
 
                 items.add(item);
             }
@@ -103,5 +107,34 @@ public class DiemTuyenSinhDAO extends DAO {
             e.printStackTrace();
         }
         return items;
+    }
+
+    public DiemTuyenSinh getItemByCode(String maNganh, int maKhoi, String namThi) {
+        DiemTuyenSinh item = new DiemTuyenSinh();
+        String sql = "SELECT * FROM " + table + " WHERE maNganh = ? AND khoiThi_id = ? AND namThi = ?";
+
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setString(1, maNganh);
+            ps.setInt(2, maKhoi);
+            ps.setString(3, namThi);
+
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                item.setMaNganh(rs.getString("maNganh"));
+                item.setDiemChuan(rs.getString("diemChuan"));
+                item.setChiTieu(rs.getString("chiTieu"));
+                item.setNamThi(rs.getString("namThi"));
+                item.setKhoiThi_id(rs.getInt("khoiThi_id"));
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return item;
     }
 }

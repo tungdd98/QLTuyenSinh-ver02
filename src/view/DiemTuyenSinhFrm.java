@@ -12,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class DiemTuyenSinhFrm extends javax.swing.JFrame {
 
-    private final String[] header = {"STT", "Mã ngành", "Điểm chuẩn", "Chỉ tiêu", "Năm thi"};
+    private final String[] header = {"STT", "Mã ngành", "Điểm chuẩn", "Chỉ tiêu", "Năm thi", "Khối thi"};
     private ArrayList<DiemTuyenSinh> items = new ArrayList<>();
     private int selectedIndex;
     DefaultTableModel model;
@@ -37,7 +37,7 @@ public class DiemTuyenSinhFrm extends javax.swing.JFrame {
         model.setRowCount(0);
         for (DiemTuyenSinh item : items) {
             model.addRow(new Object[]{
-                model.getRowCount() + 1, item.getMaNganh(), item.getDiemChuan(), item.getChiTieu(), item.getNamThi()
+                model.getRowCount() + 1, item.getMaNganh(), item.getDiemChuan(), item.getChiTieu(), item.getNamThi(), item.getTenKhoi()
             });
         }
     }

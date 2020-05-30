@@ -158,4 +158,43 @@ public class ThiSinhDAO extends DAO {
         return items;
     }
 
+    public ArrayList<ThiSinh> getResultScore(String totalScore, int maKhoi) {
+        ArrayList<ThiSinh> items = new ArrayList<>();
+        String sql = "SELECT thi_sinh.maThiSinh, hoTen, ngaySinh, gioiTinh, CMND, danToc, soDienThoai, queQuan, SUM(diem) "
+                + "FROM thi_sinh "
+                + "INNER JOIN diem_thi ON thi_sinh.maThiSinh = diem_thi.thiSinh_id "
+                + "INNER JOIN monthi_khoithi ON diem_thi.monThi_id = monthi_khoithi.monThi_id "
+                + "WHERE khoiThi_id = ? "
+                + "GROUP BY thi_sinh.maThiSinh, hoTen, ngaySinh, gioiTinh, CMND, danToc, soDienThoai, queQuan "
+                + "HAVING SUM(diem) >= ?";
+        
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            
+            ps.setInt(1, maKhoi);
+            ps.setString(2, totalScore);
+            
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                ThiSinh item = new ThiSinh();
+                item.setMaThiSinh(rs.getString("maThiSinh"));
+                item.setHoTen(rs.getString("hoTen"));
+                item.setNgaySinh(rs.getDate("ngaySinh"));
+                item.setGioiTinh(rs.getInt("gioiTinh"));
+                item.setDanToc(rs.getString("danToc"));
+                item.setCMND(rs.getString("CMND"));
+                item.setSoDienThoai(rs.getString("soDienThoai"));
+                item.setQueQuan(rs.getString("queQuan"));
+
+                items.add(item);
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return items;
+    }
 }
