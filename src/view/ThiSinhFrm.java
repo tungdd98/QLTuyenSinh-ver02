@@ -26,7 +26,6 @@ public class ThiSinhFrm extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
 
-        items = new ThiSinhDAO().getListItem();
         model = (DefaultTableModel) tblThiSinh.getModel();
         model.setColumnIdentifiers(header);
         showTable();
@@ -36,33 +35,13 @@ public class ThiSinhFrm extends javax.swing.JFrame {
      * Hiển thị danh sách dữ liệu
      */
     public void showTable() {
+        items = new ThiSinhDAO().getListItem();
         model.setRowCount(0);
         for (ThiSinh item : items) {
             model.addRow(new Object[]{
                 model.getRowCount() + 1, item.getMaThiSinh(), item.getHoTen(), new SimpleDateFormat("dd/MM/yyyy").format(item.getNgaySinh()), item.getGioiTinh() == 1 ? "Nam" : "Nữ", item.getCMND(), item.getDanToc(), item.getSoDienThoai(), item.getQueQuan()
             });
         }
-    }
-
-    /**
-     * Thêm mới vào arraylist
-     *
-     * @param ts
-     */
-    public void addItem(ThiSinh item) {
-        items.add(item);
-        showTable();
-    }
-
-    /**
-     * Cập nhật vào arraylist
-     *
-     * @param ts
-     */
-    public void updateItem(ThiSinh item) {
-        items.remove(selectedIndex);
-        items.add(item);
-        showTable();
     }
 
     /**
@@ -137,7 +116,7 @@ public class ThiSinhFrm extends javax.swing.JFrame {
         });
 
         cbFilter.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã thí sinh", "Họ và tên", "CMND" }));
+        cbFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mã thí sinh", "Họ tên", "CMND" }));
 
         tblThiSinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tblThiSinh.setModel(new javax.swing.table.DefaultTableModel(

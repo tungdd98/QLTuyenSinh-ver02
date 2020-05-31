@@ -24,7 +24,6 @@ public class DiemTuyenSinhFrm extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
 
-        items = new DiemTuyenSinhDAO().getListItem();
         model = (DefaultTableModel) tblDiemTuyenSinh.getModel();
         model.setColumnIdentifiers(header);
         showTable();
@@ -34,33 +33,13 @@ public class DiemTuyenSinhFrm extends javax.swing.JFrame {
      * Hiển thị danh sách dữ liệu
      */
     public void showTable() {
+        items = new DiemTuyenSinhDAO().getListItem();
         model.setRowCount(0);
         for (DiemTuyenSinh item : items) {
             model.addRow(new Object[]{
                 model.getRowCount() + 1, item.getMaNganh(), item.getDiemChuan(), item.getChiTieu(), item.getNamThi(), item.getTenKhoi()
             });
         }
-    }
-
-    /**
-     * Thêm mới vào arraylist
-     *
-     * @param ts
-     */
-    public void addItem(DiemTuyenSinh item) {
-        items.add(item);
-        showTable();
-    }
-
-    /**
-     * Cập nhật vào arraylist
-     *
-     * @param ts
-     */
-    public void updateItem(DiemTuyenSinh item) {
-        items.remove(selectedIndex);
-        items.add(item);
-        showTable();
     }
 
     /**

@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author ASUS-S510
+ * @author tungdd
  */
 public class DiemThiFrm extends javax.swing.JDialog {
 
@@ -107,6 +107,10 @@ public class DiemThiFrm extends javax.swing.JDialog {
     public void resetForm() {
         txtDiemThi.setText("");
         cbMonThi.setSelectedIndex(0);
+        cbMonThi.setEnabled(true);
+        btnAdd.setEnabled(true);
+        btnUpdate.setEnabled(false);
+        btnDelete.setEnabled(false);
     }
 
     public void submit(boolean isEdit) {
@@ -125,6 +129,7 @@ public class DiemThiFrm extends javax.swing.JDialog {
             DiemThi item = new DiemThi(maThiSinh, maMonThi, diemThi.getText(), tenMonThi);
             if (!isEdit) {
                 if (new DiemThiDAO().addItem(item)) {
+                    JOptionPane.showMessageDialog(this, "Thêm mới thành công");
                     addItem(item);
                     resetForm();
                 } else {
@@ -132,6 +137,7 @@ public class DiemThiFrm extends javax.swing.JDialog {
                 }
             } else {
                 if (new DiemThiDAO().updateItem(item)) {
+                    JOptionPane.showMessageDialog(this, "Cập nhật thành công");
                     updateItem(item);
                     resetForm();
                 } else {
@@ -292,6 +298,7 @@ public class DiemThiFrm extends javax.swing.JDialog {
             btnAdd.setEnabled(false);
             txtDiemThi.setText(item.getDiem());
             cbMonThi.setSelectedItem(item.getTenMon());
+            cbMonThi.setEnabled(false);
         } else {
             btnUpdate.setEnabled(false);
             btnDelete.setEnabled(false);

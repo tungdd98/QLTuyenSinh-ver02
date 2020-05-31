@@ -11,7 +11,7 @@ import entity.ThiSinh;
 public class ThiSinhDAO extends DAO {
 
     private final String orderBy = "hoTen";
-    private final String orderDir = "DESC";
+    private final String orderDir = "ASC";
     private final String table = "thi_sinh";
 
     public ThiSinhDAO() {
@@ -32,7 +32,7 @@ public class ThiSinhDAO extends DAO {
             ps.setString(6, item.getDanToc());
             ps.setString(7, item.getSoDienThoai());
             ps.setString(8, item.getQueQuan());
-            
+
             int isSuccess = ps.executeUpdate();
             ps.close();
             conn.close();
@@ -121,22 +121,22 @@ public class ThiSinhDAO extends DAO {
         String sql = "";
         switch (field) {
             case "maThiSinh":
-                sql = "SELECT * from " + table + " WHERE maThiSinh = ?";
+                sql = "SELECT * FROM " + table + " WHERE maThiSinh = " + query;
                 break;
             case "CMND":
-                sql = "SELECT * from " + table + " WHERE CMND = ?";
+                sql = "SELECT * FROM " + table + " WHERE CMND = " + query;
                 break;
             case "hoTen":
-                sql = "SELECT * FROM " + table + " WHERE hoTen LIKE '%?%'";
+                sql = "SELECT * FROM " + table + " WHERE hoTen LIKE '%" + query + "%'";
                 break;
         }
         try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, query);
-            ResultSet rs = ps.executeQuery();
-            
+            Statement sm = conn.createStatement();
+            ResultSet rs = sm.executeQuery(sql);
+
             while (rs.next()) {
                 ThiSinh item = new ThiSinh();
+                
                 item.setMaThiSinh(rs.getString("maThiSinh"));
                 item.setHoTen(rs.getString("hoTen"));
                 item.setNgaySinh(rs.getDate("ngaySinh"));
@@ -149,7 +149,7 @@ public class ThiSinhDAO extends DAO {
                 items.add(item);
             }
             rs.close();
-            ps.close();
+            sm.close();
             conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -167,13 +167,13 @@ public class ThiSinhDAO extends DAO {
                 + "WHERE khoiThi_id = ? "
                 + "GROUP BY thi_sinh.maThiSinh, hoTen, ngaySinh, gioiTinh, CMND, danToc, soDienThoai, queQuan "
                 + "HAVING SUM(diem) >= ?";
-        
+
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            
+
             ps.setInt(1, maKhoi);
             ps.setString(2, totalScore);
-            
+
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 ThiSinh item = new ThiSinh();
@@ -191,7 +191,7 @@ public class ThiSinhDAO extends DAO {
             rs.close();
             ps.close();
             conn.close();
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
