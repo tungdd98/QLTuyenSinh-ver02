@@ -165,7 +165,7 @@ public class NganhThiFormFrm extends javax.swing.JDialog {
             NganhThi item = new NganhThi(maNganhThi.getText(), tenNganhThi.getText());
             if (!isEdit) {
                 if (new NganhThiDAO().addItem(item)) {
-                    home.addItem(item);
+                    home.showTable();
                     JOptionPane.showMessageDialog(this, "Thêm mới thành công!");
                     this.dispose();
                 } else {
@@ -173,7 +173,7 @@ public class NganhThiFormFrm extends javax.swing.JDialog {
                 }
             } else {
                 if (new NganhThiDAO().updateItem(item)) {
-                    home.updateItem(item);
+                    home.showTable();
                     JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
                     this.dispose();
                 } else {

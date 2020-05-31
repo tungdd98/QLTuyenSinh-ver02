@@ -24,7 +24,6 @@ public class NganhThiFrm extends javax.swing.JFrame {
         initComponents();
         setLocationRelativeTo(null);
 
-        items = new NganhThiDAO().getListItem();
         model = (DefaultTableModel) tblNganhThi.getModel();
         model.setColumnIdentifiers(header);
         showTable();
@@ -34,33 +33,13 @@ public class NganhThiFrm extends javax.swing.JFrame {
      * Hiển thị danh sách dữ liệu
      */
     public void showTable() {
+        items = new NganhThiDAO().getListItem();
         model.setRowCount(0);
         for (NganhThi ts : items) {
             model.addRow(new Object[]{
                 model.getRowCount() + 1, ts.getMaNganh(), ts.getTenNganh()
             });
         }
-    }
-
-    /**
-     * Thêm mới vào arraylist
-     *
-     * @param ts
-     */
-    public void addItem(NganhThi item) {
-        items.add(item);
-        showTable();
-    }
-
-    /**
-     * Cập nhật vào arraylist
-     *
-     * @param ts
-     */
-    public void updateItem(NganhThi item) {
-        items.remove(selectedIndex);
-        items.add(item);
-        showTable();
     }
 
     /**

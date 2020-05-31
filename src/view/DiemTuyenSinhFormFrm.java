@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author tungdd
+ * @author tuanndm
  */
 public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
 
@@ -270,7 +270,7 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
             
             if (!isEdit) {
                 if (new DiemTuyenSinhDAO().addItem(item)) {
-                    home.addItem(item);
+                    home.showTable();
                     JOptionPane.showMessageDialog(this, "Thêm mới thành công!");
                     this.dispose();
                 } else {
@@ -278,7 +278,7 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
                 }
             } else {
                 if (new DiemTuyenSinhDAO().updateItem(item)) {
-                    home.updateItem(item);
+                    home.showTable();
                     JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
                     this.dispose();
                 } else {

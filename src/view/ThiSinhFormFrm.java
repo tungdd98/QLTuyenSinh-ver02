@@ -313,7 +313,7 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
             ThiSinh item = new ThiSinh(maThiSinh.getText(), hoTen.getText(), gioiTinh, danToc.getText(), soDienThoai.getText(), queQuan, CMND.getText(), ngaySinh);
             if (!isEdit) {
                 if (new ThiSinhDAO().addItem(item)) {
-                    home.addItem(item);
+                    home.showTable();
                     JOptionPane.showMessageDialog(this, "Thêm mới thành công!");
                     this.dispose();
                 } else {
@@ -321,7 +321,7 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
                 }
             } else {
                 if (new ThiSinhDAO().updateItem(item)) {
-                    home.updateItem(item);
+                    home.showTable();
                     JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
                     this.dispose();
                 } else {
