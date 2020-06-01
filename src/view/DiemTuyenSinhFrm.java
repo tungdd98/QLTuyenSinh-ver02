@@ -68,7 +68,7 @@ public class DiemTuyenSinhFrm extends javax.swing.JFrame {
         jLabel1.setText("Quản lý điểm tuyển sinh");
 
         btnBackHome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnBackHome.setText("Trở lại");
+        btnBackHome.setText("Quay lại");
         btnBackHome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBackHomeActionPerformed(evt);

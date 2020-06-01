@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author tungdd
+ * @author tuanndm
  */
 public class DiemTuyenSinhDAO extends DAO {
 

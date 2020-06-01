@@ -41,7 +41,7 @@ public class BanTuyenSinhFrm extends javax.swing.JFrame {
         jLabel1.setText("Ban tuyển sinh");
 
         btnBackHome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnBackHome.setText("Trang chủ");
+        btnBackHome.setText("Quay lại");
         btnBackHome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBackHomeActionPerformed(evt);

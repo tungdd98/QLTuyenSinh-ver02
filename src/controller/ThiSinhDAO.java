@@ -136,7 +136,7 @@ public class ThiSinhDAO extends DAO {
 
             while (rs.next()) {
                 ThiSinh item = new ThiSinh();
-                
+
                 item.setMaThiSinh(rs.getString("maThiSinh"));
                 item.setHoTen(rs.getString("hoTen"));
                 item.setNgaySinh(rs.getDate("ngaySinh"));
