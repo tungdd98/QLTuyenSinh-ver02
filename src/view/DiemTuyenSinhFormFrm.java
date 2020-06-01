@@ -84,6 +84,7 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
         txtDiemChuan.setText("" + item.getDiemChuan());
         txtChiTieu.setText("" + item.getChiTieu());
         txtNamThi.setText(item.getNamThi());
+        txtNamThi.setEnabled(false);
         cbTenNganh.setSelectedIndex(index);
         cbTenNganh.setEnabled(false);
         cbKhoiThi.setSelectedItem(item.getTenKhoi());
@@ -247,9 +248,9 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
         ArrayList<Validator> data = new ArrayList<>();
         String maNganh;
         int maKhoi;
-        Validator diemChuan = new Validator(txtDiemChuan.getText(), new String[]{"required", "isNumber"}, "Điểm chuẩn"),
-                chiTieu = new Validator(txtChiTieu.getText(), new String[]{"required", "isNumber"}, "Chỉ tiêu"),
-                namThi = new Validator(txtNamThi.getText(), new String[]{"required", "isNumber"}, "Năm thi");
+        Validator diemChuan = new Validator(txtDiemChuan.getText(), new String[]{"required", "isDecimal"}, "Điểm chuẩn"),
+                chiTieu = new Validator(txtChiTieu.getText(), new String[]{"required", "isInteger"}, "Chỉ tiêu"),
+                namThi = new Validator(txtNamThi.getText(), new String[]{"required", "isInteger"}, "Năm thi");
         
         data.add(diemChuan);
         data.add(chiTieu);

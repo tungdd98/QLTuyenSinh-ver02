@@ -121,10 +121,10 @@ public class ThiSinhDAO extends DAO {
         String sql = "";
         switch (field) {
             case "maThiSinh":
-                sql = "SELECT * FROM " + table + " WHERE maThiSinh = " + query;
+                sql = "SELECT * FROM " + table + " WHERE maThiSinh = '" + query + "'";
                 break;
             case "CMND":
-                sql = "SELECT * FROM " + table + " WHERE CMND = " + query;
+                sql = "SELECT * FROM " + table + " WHERE CMND = '" + query + "'";
                 break;
             case "hoTen":
                 sql = "SELECT * FROM " + table + " WHERE hoTen LIKE '%" + query + "%'";
