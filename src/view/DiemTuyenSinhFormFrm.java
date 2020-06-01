@@ -114,7 +114,7 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
         cbKhoiThi = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Thông tin thí sinh");
+        setTitle("Thông tin điểm tuyển sinh");
 
         lbHoTen.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbHoTen.setText("Điểm chuẩn");

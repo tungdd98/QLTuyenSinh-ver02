@@ -57,7 +57,7 @@ public class NganhThiFormFrm extends javax.swing.JDialog {
         jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Thông tin thí sinh");
+        setTitle("Thông tin ngành thi");
 
         lbMaThiSinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbMaThiSinh.setText("Mã ngành");

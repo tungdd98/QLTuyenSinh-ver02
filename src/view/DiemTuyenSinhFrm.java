@@ -61,14 +61,14 @@ public class DiemTuyenSinhFrm extends javax.swing.JFrame {
         tblDiemTuyenSinh = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Quản lý thí sinh");
+        setTitle("Quản lý điểm tuyển sinh");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Quản lý điểm tuyển sinh");
 
         btnBackHome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnBackHome.setText("Trang chủ");
+        btnBackHome.setText("Trở lại");
         btnBackHome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBackHomeActionPerformed(evt);
@@ -178,7 +178,7 @@ public class DiemTuyenSinhFrm extends javax.swing.JFrame {
      * @param evt
      */
     private void btnBackHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackHomeActionPerformed
-        new TrangChuFrm().setVisible(true);
+        new DhCnhnFrm().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnBackHomeActionPerformed
 
@@ -230,6 +230,7 @@ public class DiemTuyenSinhFrm extends javax.swing.JFrame {
      */
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int isDelete = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xoá?");
+        
         if (isDelete == 0) {
             if (new DiemTuyenSinhDAO().deleteItem(items.get(selectedIndex))) {
                 items.remove(selectedIndex);
