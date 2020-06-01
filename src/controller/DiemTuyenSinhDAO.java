@@ -143,7 +143,7 @@ public class DiemTuyenSinhDAO extends DAO {
     
     public ArrayList<String> getListYear() {
         ArrayList<String> items = new ArrayList<>();
-        String sql = "SELECT namThi FROM diem_tuyen_sinh GROUP BY maNganh";
+        String sql = "SELECT namThi FROM diem_tuyen_sinh GROUP BY namThi";
         
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
