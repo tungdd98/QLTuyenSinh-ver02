@@ -10,7 +10,7 @@ import entity.DiemThi;
  */
 public class DiemThiDAO extends DAO {
 
-    private String table = "diem_thi";
+    private final String table = "diem_thi";
 
     public DiemThiDAO() {
         super();
