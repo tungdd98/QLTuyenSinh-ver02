@@ -61,14 +61,14 @@ public class NganhThiFrm extends javax.swing.JFrame {
         tblNganhThi = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Quản lý thí sinh");
+        setTitle("Quản lý ngành thi");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setText("Quản lý ngành thi");
 
         btnBackHome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnBackHome.setText("Trang chủ");
+        btnBackHome.setText("Quay lại");
         btnBackHome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBackHomeActionPerformed(evt);
@@ -178,7 +178,7 @@ public class NganhThiFrm extends javax.swing.JFrame {
      * @param evt
      */
     private void btnBackHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackHomeActionPerformed
-        new TrangChuFrm().setVisible(true);
+        new DhCnhnFrm().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnBackHomeActionPerformed
 

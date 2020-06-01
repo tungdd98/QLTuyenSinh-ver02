@@ -14,13 +14,14 @@ public class NganhThiDAO extends DAO {
 
     private String orderBy = "tenNganh";
     private String orderDir = "ASC";
+    private String table = "nganh_thi";
 
     public NganhThiDAO() {
         super();
     }
 
     public boolean addItem(NganhThi item) {
-        String sql = "INSERT INTO nganh_thi(maNganh, tenNganh) VALUES(?, ?)";
+        String sql = "INSERT INTO " + table + "(maNganh, tenNganh) VALUES(?, ?)";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -28,7 +29,10 @@ public class NganhThiDAO extends DAO {
             ps.setString(1, item.getMaNganh());
             ps.setString(2, item.getTenNganh());
 
-            return ps.executeUpdate() > 0;
+            int isSuccess = ps.executeUpdate();
+            ps.close();
+            conn.close();
+            return isSuccess > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -37,14 +41,17 @@ public class NganhThiDAO extends DAO {
     }
 
     public boolean updateItem(NganhThi item) {
-        String sql = "UPDATE nganh_thi SET tenNganh = ? WHERE maNganh = ?";
+        String sql = "UPDATE " + table + " SET tenNganh = ? WHERE maNganh = ?";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, item.getTenNganh());
             ps.setString(2, item.getMaNganh());
 
-            return ps.executeUpdate() > 0;
+            int isSuccess = ps.executeUpdate();
+            ps.close();
+            conn.close();
+            return isSuccess > 0;
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -53,14 +60,18 @@ public class NganhThiDAO extends DAO {
     }
 
     public boolean deleteItem(NganhThi item) {
-        String sql = "DELETE FROM nganh_thi WHERE maNganh = ?";
+        String sql = "DELETE FROM " + table + " WHERE maNganh = ?";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, item.getMaNganh());
 
-            return ps.executeUpdate() > 0;
+            int isSuccess = ps.executeUpdate();
+            ps.close();
+            conn.close();
+            return isSuccess > 0;
         } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return false;
@@ -68,7 +79,7 @@ public class NganhThiDAO extends DAO {
 
     public ArrayList<NganhThi> getListItem() {
         ArrayList<NganhThi> items = new ArrayList<>();
-        String sql = "SELECT * FROM nganh_thi ORDER BY " + orderBy + " " + orderDir;
+        String sql = "SELECT * FROM " + table + " ORDER BY " + orderBy + " " + orderDir;
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
@@ -82,7 +93,11 @@ public class NganhThiDAO extends DAO {
 
                 items.add(item);
             }
+            rs.close();
+            ps.close();
+            conn.close();
         } catch (SQLException e) {
+            e.printStackTrace();
         }
         return items;
     }

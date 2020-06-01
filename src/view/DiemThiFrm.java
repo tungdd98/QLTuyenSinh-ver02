@@ -168,6 +168,7 @@ public class DiemThiFrm extends javax.swing.JDialog {
         tblDiemThi = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Điểm thi thí sinh");
         setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
@@ -300,9 +301,7 @@ public class DiemThiFrm extends javax.swing.JDialog {
             cbMonThi.setSelectedItem(item.getTenMon());
             cbMonThi.setEnabled(false);
         } else {
-            btnUpdate.setEnabled(false);
-            btnDelete.setEnabled(false);
-            btnAdd.setEnabled(true);
+            resetForm();
         }
     }//GEN-LAST:event_tblDiemThiMouseClicked
 
@@ -312,6 +311,7 @@ public class DiemThiFrm extends javax.swing.JDialog {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int isDelete = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xoá điểm thi môn này?");
+        
         if (isDelete == 0) {
             if (new DiemThiDAO().deleteItem(listDiemThi.get(selectedIndex))) {
                 listDiemThi.remove(selectedIndex);
