@@ -63,8 +63,13 @@ public class Validator {
         return false;
     }
 
-    public boolean isNumber(String value) {
+    public boolean isInteger(String value) {
         String regex = "^[0-9]*$";
+        return Pattern.matches(regex, value);
+    }
+    
+    public boolean isDecimal(String value) {
+        String regex = "^[1-9][0-9]*(\\.[0-9]+)?$";
         return Pattern.matches(regex, value);
     }
 
@@ -74,7 +79,7 @@ public class Validator {
     }
 
     public boolean isScore(String value) {
-        String regex = "^[0-9/.]*$";
+        String regex = "^[1-9][0-9]*(\\.[0-9]+)?$";
 
         if (Pattern.matches(regex, value)) {
             if (Float.parseFloat(0 + value) >= 0 && Float.parseFloat(0 + value) <= 10) {
@@ -99,8 +104,8 @@ public class Validator {
                         JOptionPane.showMessageDialog(home, field + " không được để trống");
                     }
                     break;
-                case "isNumber":
-                    if (!isNumber(value)) {
+                case "isInteger":
+                    if (!isInteger(value)) {
                         isSuccess = false;
                         JOptionPane.showMessageDialog(home, field + " phải là số");
                     }
@@ -113,6 +118,12 @@ public class Validator {
                     break;
                 case "isScore":
                     if (!isScore(value)) {
+                        isSuccess = false;
+                        JOptionPane.showMessageDialog(home, field + " không hợp lệ");
+                    }
+                    break;
+                case "isDecimal":
+                    if (!isDecimal(value)) {
                         isSuccess = false;
                         JOptionPane.showMessageDialog(home, field + " không hợp lệ");
                     }

@@ -159,7 +159,7 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
         rdoNu.setText("Nữ");
 
         cbQueQuan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        cbQueQuan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hà Nội", "Hải Phòng", "Hà Nam", "Bắc Ninh", "TP. Hồ Chí Minh", "Hải Dương", "Cao Bằng", "Thái Bình", "Vĩnh Phúc", "Bắc Giang", "Hưng Yên" }));
+        cbQueQuan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Hà Nội", "Hải Phòng", "Hà Nam", "Bắc Ninh", "TP. Hồ Chí Minh", "Hải Dương", "Cao Bằng", "Thái Bình", "Vĩnh Phúc", "Bắc Giang", "Hưng Yên", "Long An", "Bình Dương", " " }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -275,11 +275,11 @@ public class ThiSinhFormFrm extends javax.swing.JDialog {
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         boolean isSuccess = true;
         ArrayList<Validator> data = new ArrayList<>();
-        Validator maThiSinh = new Validator(txtMaThiSinh.getText(), new String[]{"required", "isNumber"}, "Mã thí sinh"),
+        Validator maThiSinh = new Validator(txtMaThiSinh.getText(), new String[]{"required", "isInteger"}, "Mã thí sinh"),
                 hoTen = new Validator(txtHoTen.getText(), new String[]{"required", "isString"}, "Họ tên"),
                 CMND = new Validator(txtCMND.getText(), new String[]{"required"}, "CMND"),
                 danToc = new Validator(txtDanToc.getText(), new String[]{"required", "isString"}, "Dân tộc"),
-                soDienThoai = new Validator(txtSoDienThoai.getText(), new String[]{"isNumber"}, "Số điện thoại");
+                soDienThoai = new Validator(txtSoDienThoai.getText(), new String[]{"isInteger"}, "Số điện thoại");
         Date ngaySinh = null;
         int gioiTinh = 1;
         String queQuan = null;

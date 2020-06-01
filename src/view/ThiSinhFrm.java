@@ -264,6 +264,7 @@ public class ThiSinhFrm extends javax.swing.JFrame {
      */
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int isDelete = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xoá?");
+
         if (isDelete == 0) {
             if (new ThiSinhDAO().deleteItem(items.get(selectedIndex))) {
                 items.remove(selectedIndex);
@@ -290,7 +291,8 @@ public class ThiSinhFrm extends javax.swing.JFrame {
 
     /**
      * Sự kiện tìm kiếm
-     * @param evt 
+     *
+     * @param evt
      */
     private void txtSearchKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSearchKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
@@ -301,21 +303,28 @@ public class ThiSinhFrm extends javax.swing.JFrame {
                 switch (chosen) {
                     case "Họ tên":
                         items = new ThiSinhDAO().searchItem(query.trim(), "hoTen");
-                        showTable();
                         break;
 
                     case "CMND":
                         items = new ThiSinhDAO().searchItem(query.trim(), "CMND");
-                        showTable();
                         break;
 
                     default:
                         items = new ThiSinhDAO().searchItem(query.trim(), "maThiSinh");
-                        showTable();
                         break;
                 }
+                if (items.size() > 0) {
+                    model.setRowCount(0);
+                    for (ThiSinh item : items) {
+                        model.addRow(new Object[]{
+                            model.getRowCount() + 1, item.getMaThiSinh(), item.getHoTen(), new SimpleDateFormat("dd/MM/yyyy").format(item.getNgaySinh()), item.getGioiTinh() == 1 ? "Nam" : "Nữ", item.getCMND(), item.getDanToc(), item.getSoDienThoai(), item.getQueQuan()
+                        });
+                    }
+                } else {
+                    model.setRowCount(0);
+                    JOptionPane.showMessageDialog(rootPane, "Không tìm thấy kết quả");
+                }
             } else {
-                items = new ThiSinhDAO().getListItem();
                 showTable();
             }
         }

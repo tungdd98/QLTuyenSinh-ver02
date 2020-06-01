@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class DiemTuyenSinhDAO extends DAO {
 
-    private final String orderBy = "namThi";
+    private final String orderBy = "namThi, maNganh";
     private final String orderDir = "DESC";
     private final String table = "diem_tuyen_sinh";
 
@@ -42,12 +42,15 @@ public class DiemTuyenSinhDAO extends DAO {
     }
 
     public boolean updateItem(DiemTuyenSinh item) {
-        String sql = "UPDATE " + table + " SET diemChuan = ?, chiTieu = ?";
+        String sql = "UPDATE " + table + " SET diemChuan = ?, chiTieu = ? WHERE maNganh = ? AND namThi = ? AND khoiThi_id = ?";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
             ps.setString(1, item.getDiemChuan());
             ps.setString(2, item.getChiTieu());
+            ps.setString(3, item.getMaNganh());
+            ps.setString(4, item.getNamThi());
+            ps.setInt(5, item.getKhoiThi_id());
 
             int isSuccess = ps.executeUpdate();
             ps.close();
