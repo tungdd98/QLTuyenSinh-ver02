@@ -10,9 +10,9 @@ import java.util.ArrayList;
  */
 public class DiemTuyenSinhDAO extends DAO {
 
-    private String orderBy = "namThi";
-    private String orderDir = "DESC";
-    private String table = "diem_tuyen_sinh";
+    private final String orderBy = "namThi";
+    private final String orderDir = "DESC";
+    private final String table = "diem_tuyen_sinh";
 
     public DiemTuyenSinhDAO() {
         super();
@@ -136,5 +136,52 @@ public class DiemTuyenSinhDAO extends DAO {
             e.printStackTrace();
         }
         return item;
+    }
+    
+    public ArrayList<String> getListYear() {
+        ArrayList<String> items = new ArrayList<>();
+        String sql = "SELECT namThi FROM diem_tuyen_sinh GROUP BY maNganh";
+        
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()) {
+                String item = rs.getString("namThi");
+                
+                items.add(item);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return items;
+    }
+    
+    public ArrayList<DiemTuyenSinh> getListItemByCode(String maNganh, String namThi) {
+        ArrayList<DiemTuyenSinh> items = new ArrayList<>();
+        String sql = "SELECT maNganh, diemChuan, chiTieu, tenKhoi FROM " + table + " INNER JOIN khoi_thi ON diem_tuyen_sinh.khoiThi_id = khoi_thi.maKhoi "
+                + "WHERE maNganh = ? AND namThi = ?";
+        
+        try {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            
+            ps.setString(1, maNganh);
+            ps.setString(2, namThi);
+            ResultSet rs = ps.executeQuery();
+            
+            while(rs.next()) {
+                DiemTuyenSinh item = new DiemTuyenSinh();
+                
+                item.setMaNganh(rs.getString("maNganh"));
+                item.setDiemChuan(rs.getString("diemChuan"));
+                item.setChiTieu(rs.getString("chiTieu"));
+                item.setTenKhoi(rs.getString("tenKhoi"));
+                
+                items.add(item);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return items;
     }
 }

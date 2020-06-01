@@ -31,7 +31,7 @@ public class TrangChuFrm extends javax.swing.JFrame {
         btnXemDiemTS = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Quản lý tuyển sinh");
+        setTitle("Xem điểm tuyển sinh");
         setPreferredSize(new java.awt.Dimension(800, 450));
         setSize(new java.awt.Dimension(800, 450));
 
@@ -137,7 +137,8 @@ public class TrangChuFrm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDHCNActionPerformed
 
     private void btnXemDiemTSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXemDiemTSActionPerformed
-        // TODO add your handling code here:
+        new XemDiemTuyenSinhFrm().setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnXemDiemTSActionPerformed
 
     /**

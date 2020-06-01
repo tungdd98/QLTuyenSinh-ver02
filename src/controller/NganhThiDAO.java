@@ -1,9 +1,7 @@
 package controller;
 
 import entity.NganhThi;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 
 /**
@@ -12,9 +10,9 @@ import java.util.ArrayList;
  */
 public class NganhThiDAO extends DAO {
 
-    private String orderBy = "tenNganh";
-    private String orderDir = "ASC";
-    private String table = "nganh_thi";
+    private final String orderBy = "tenNganh";
+    private final String orderDir = "ASC";
+    private final String table = "nganh_thi";
 
     public NganhThiDAO() {
         super();
