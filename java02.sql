@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 30, 2020 at 04:23 PM
+-- Generation Time: Jun 03, 2020 at 09:44 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.2
 
@@ -39,10 +39,16 @@ CREATE TABLE `diem_thi` (
 --
 
 INSERT INTO `diem_thi` (`thiSinh_id`, `monThi_id`, `diem`) VALUES
-('2017696356', 2, '9'),
-('2017696356', 3, '7'),
-('2017696356', 4, '10'),
-('2017696356', 5, '10');
+('2017603573', 2, '7'),
+('2017603573', 3, '10'),
+('2017603573', 4, '8'),
+('2017603573', 5, '9'),
+('2017603573', 6, '10'),
+('2017896587', 2, '5'),
+('2017896587', 3, '6'),
+('2017896587', 4, '10'),
+('2017896587', 5, '7'),
+('2017896587', 6, '8');
 
 -- --------------------------------------------------------
 
@@ -54,17 +60,19 @@ CREATE TABLE `diem_tuyen_sinh` (
   `maNganh` varchar(30) NOT NULL,
   `diemChuan` varchar(30) NOT NULL,
   `chiTieu` varchar(30) NOT NULL,
-  `namThi` varchar(30) NOT NULL
+  `namThi` varchar(30) NOT NULL,
+  `khoiThi_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `diem_tuyen_sinh`
 --
 
-INSERT INTO `diem_tuyen_sinh` (`maNganh`, `diemChuan`, `chiTieu`, `namThi`) VALUES
-('cokhi', '23', '200', '2020'),
-('HTTT', '23', '300', '2019'),
-('KTPM', '21', '400', '2020');
+INSERT INTO `diem_tuyen_sinh` (`maNganh`, `diemChuan`, `chiTieu`, `namThi`, `khoiThi_id`) VALUES
+('cntt', '24', '201', '2020', 1),
+('cntt', '21', '200', '2020', 2),
+('cntt', '23.5', '200', '2020', 4),
+('dulich', '24', '100', '2020', 1);
 
 -- --------------------------------------------------------
 
@@ -106,7 +114,13 @@ CREATE TABLE `monthi_khoithi` (
 INSERT INTO `monthi_khoithi` (`id`, `monThi_id`, `khoiThi_id`) VALUES
 (2, 4, 1),
 (3, 5, 1),
-(5, 2, 3);
+(5, 2, 3),
+(6, 6, 1),
+(7, 6, 3),
+(8, 2, 3),
+(9, 3, 4),
+(10, 4, 4),
+(11, 6, 4);
 
 -- --------------------------------------------------------
 
@@ -146,10 +160,11 @@ CREATE TABLE `nganh_thi` (
 --
 
 INSERT INTO `nganh_thi` (`maNganh`, `tenNganh`) VALUES
-('cokhi', 'Cơ khí'),
-('Dulich', 'Du lịch'),
-('HTTT', 'Công nghệ thông tin'),
-('KTPM', 'Kỹ thuật phần mềm');
+('cntt', 'Công nghệ thông tin'),
+('dientu', 'Điện tử'),
+('dulich', 'Du lịch'),
+('httt', 'Hệ thống thông tin'),
+('oto', 'Ô tô');
 
 -- --------------------------------------------------------
 
@@ -173,9 +188,8 @@ CREATE TABLE `thi_sinh` (
 --
 
 INSERT INTO `thi_sinh` (`maThiSinh`, `hoTen`, `ngaySinh`, `gioiTinh`, `CMND`, `danToc`, `soDienThoai`, `queQuan`) VALUES
-('201589522', 'Vàng ăn cứt', '1999-01-09', 1, '98989898989', 'Kinh', '89898989', 'Hà Nội'),
-('20176548963', 'Đặng Đức Tùng', '1998-01-09', 1, '001098009473', 'Kinh', '987456321', 'Hà Nội'),
-('2017696356', 'Đặng Đức Tùng', '1998-01-09', 1, '001098009473', 'Kinh', '0973793711', 'Hà Nội');
+('2017603573', 'Đặng Đức Tùng', '1998-01-09', 1, '001098009473a', 'Kinh', '0973793711', 'Hà Nội'),
+('2017896587', 'Nguyễn Đình Minh Tuấn', '1999-09-05', 1, '009012664478', 'Kinh', '0973796548', 'Hải Phòng');
 
 --
 -- Indexes for dumped tables
@@ -192,7 +206,8 @@ ALTER TABLE `diem_thi`
 -- Indexes for table `diem_tuyen_sinh`
 --
 ALTER TABLE `diem_tuyen_sinh`
-  ADD PRIMARY KEY (`maNganh`,`namThi`);
+  ADD PRIMARY KEY (`maNganh`,`namThi`,`khoiThi_id`) USING BTREE,
+  ADD KEY `khoiThi_id` (`khoiThi_id`);
 
 --
 -- Indexes for table `khoi_thi`
@@ -240,7 +255,7 @@ ALTER TABLE `khoi_thi`
 -- AUTO_INCREMENT for table `monthi_khoithi`
 --
 ALTER TABLE `monthi_khoithi`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `mon_thi`
@@ -263,7 +278,8 @@ ALTER TABLE `diem_thi`
 -- Constraints for table `diem_tuyen_sinh`
 --
 ALTER TABLE `diem_tuyen_sinh`
-  ADD CONSTRAINT `diem_tuyen_sinh_ibfk_1` FOREIGN KEY (`maNganh`) REFERENCES `nganh_thi` (`maNganh`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `diem_tuyen_sinh_ibfk_1` FOREIGN KEY (`maNganh`) REFERENCES `nganh_thi` (`maNganh`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `diem_tuyen_sinh_ibfk_2` FOREIGN KEY (`khoiThi_id`) REFERENCES `khoi_thi` (`maKhoi`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `monthi_khoithi`
