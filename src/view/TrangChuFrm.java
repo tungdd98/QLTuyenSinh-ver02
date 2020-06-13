@@ -28,10 +28,11 @@ public class TrangChuFrm extends javax.swing.JFrame {
         btnQLThiSinh = new javax.swing.JButton();
         btnBanTS = new javax.swing.JButton();
         btnDHCN = new javax.swing.JButton();
-        btnXemDiemTS = new javax.swing.JButton();
+        btnXemDiemChuan = new javax.swing.JButton();
+        btnXemDiemTuyenSinh = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Xem điểm tuyển sinh");
+        setTitle("Quản lý tuyển sinh");
         setPreferredSize(new java.awt.Dimension(800, 450));
         setSize(new java.awt.Dimension(800, 450));
 
@@ -63,11 +64,19 @@ public class TrangChuFrm extends javax.swing.JFrame {
             }
         });
 
-        btnXemDiemTS.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnXemDiemTS.setText("Xem điểm tuyển sinh");
-        btnXemDiemTS.addActionListener(new java.awt.event.ActionListener() {
+        btnXemDiemChuan.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnXemDiemChuan.setText("Tra cứu điểm chuẩn ngành thi");
+        btnXemDiemChuan.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXemDiemTSActionPerformed(evt);
+                btnXemDiemChuanActionPerformed(evt);
+            }
+        });
+
+        btnXemDiemTuyenSinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnXemDiemTuyenSinh.setText("Tra cứu điểm tuyển sinh thí sinh");
+        btnXemDiemTuyenSinh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXemDiemTuyenSinhActionPerformed(evt);
             }
         });
 
@@ -82,7 +91,8 @@ public class TrangChuFrm extends javax.swing.JFrame {
                     .addComponent(btnQLThiSinh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnBanTS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnDHCN, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnXemDiemTS, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnXemDiemChuan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnXemDiemTuyenSinh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(278, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -90,15 +100,17 @@ public class TrangChuFrm extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(21, 21, 21)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(49, 49, 49)
+                .addGap(29, 29, 29)
                 .addComponent(btnQLThiSinh, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnBanTS, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDHCN, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnXemDiemTS, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(137, Short.MAX_VALUE))
+                .addComponent(btnXemDiemChuan, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnXemDiemTuyenSinh, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(106, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -136,10 +148,15 @@ public class TrangChuFrm extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnDHCNActionPerformed
 
-    private void btnXemDiemTSActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXemDiemTSActionPerformed
-        new XemDiemTuyenSinhFrm().setVisible(true);
+    private void btnXemDiemChuanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXemDiemChuanActionPerformed
+        new TraCuuDiemChuanFrm().setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_btnXemDiemTSActionPerformed
+    }//GEN-LAST:event_btnXemDiemChuanActionPerformed
+
+    private void btnXemDiemTuyenSinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXemDiemTuyenSinhActionPerformed
+        new TraCuuDiemTuyenSinhFrm().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnXemDiemTuyenSinhActionPerformed
 
     /**
      * @param args the command line arguments
@@ -181,7 +198,8 @@ public class TrangChuFrm extends javax.swing.JFrame {
     private javax.swing.JButton btnBanTS;
     private javax.swing.JButton btnDHCN;
     private javax.swing.JButton btnQLThiSinh;
-    private javax.swing.JButton btnXemDiemTS;
+    private javax.swing.JButton btnXemDiemChuan;
+    private javax.swing.JButton btnXemDiemTuyenSinh;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables

@@ -1,8 +1,7 @@
 package controller;
 
 import com.mysql.jdbc.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import java.sql.*;
 
 /**
  *
@@ -10,7 +9,7 @@ import java.sql.SQLException;
  */
 public class DAO {
     public Connection conn;
-    private final String DB_URL = "jdbc:mysql://localhost/java02";
+    private final String DB_URL = "jdbc:mysql://localhost/qltuyensinh";
     private final String USER_NAME = "root";
     private final String PASSWORD = "";
 

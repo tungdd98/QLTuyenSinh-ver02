@@ -78,7 +78,7 @@ public class NganhThiFormFrm extends javax.swing.JDialog {
         });
 
         btnClose.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnClose.setText("Đóng");
+        btnClose.setText("Huỷ bỏ");
         btnClose.setToolTipText("");
         btnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

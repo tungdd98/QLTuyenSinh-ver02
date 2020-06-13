@@ -29,7 +29,7 @@ public class MonThiDAO extends DAO {
             while (rs.next()) {
                 MonThi item = new MonThi();
 
-                item.setMaMon(rs.getInt("maMon"));
+                item.setMaMon(rs.getString("maMon"));
                 item.setTenMon(rs.getString("tenMon"));
 
                 items.add(item);

@@ -6,22 +6,22 @@ package entity;
  * @author tungdd
  */
 public class MonThi {
-    private int maMon;
+    private String maMon;
     private String tenMon;
 
     public MonThi() {
     }
 
-    public MonThi(int maMon, String tenMon) {
+    public MonThi(String maMon, String tenMon) {
         this.maMon = maMon;
         this.tenMon = tenMon;
     }
 
-    public int getMaMon() {
+    public String getMaMon() {
         return maMon;
     }
 
-    public void setMaMon(int maMon) {
+    public void setMaMon(String maMon) {
         this.maMon = maMon;
     }
 

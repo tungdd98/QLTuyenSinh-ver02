@@ -81,6 +81,7 @@ public class ThiSinhDAO extends DAO {
             conn.close();
             return isSuccess > 0;
         } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return false;
@@ -119,6 +120,7 @@ public class ThiSinhDAO extends DAO {
     public ArrayList<ThiSinh> searchItem(String query, String field) {
         ArrayList<ThiSinh> items = new ArrayList<>();
         String sql = "";
+        
         switch (field) {
             case "maThiSinh":
                 sql = "SELECT * FROM " + table + " WHERE maThiSinh = '" + query + "'";
@@ -158,21 +160,21 @@ public class ThiSinhDAO extends DAO {
         return items;
     }
 
-    public ArrayList<ThiSinh> getResultScore(String totalScore, int maKhoi) {
+    public ArrayList<ThiSinh> getResultScore(float totalScore, String maKhoi) {
         ArrayList<ThiSinh> items = new ArrayList<>();
         String sql = "SELECT thi_sinh.maThiSinh, hoTen, ngaySinh, gioiTinh, CMND, danToc, soDienThoai, queQuan, SUM(diem) "
                 + "FROM thi_sinh "
-                + "INNER JOIN diem_thi ON thi_sinh.maThiSinh = diem_thi.thiSinh_id "
-                + "INNER JOIN monthi_khoithi ON diem_thi.monThi_id = monthi_khoithi.monThi_id "
-                + "WHERE khoiThi_id = ? "
+                + "INNER JOIN diem_tuyen_sinh ON thi_sinh.maThiSinh = diem_tuyen_sinh.maThiSinh "
+                + "INNER JOIN monthi_khoithi ON diem_tuyen_sinh.maMon = monthi_khoithi.maMon "
+                + "WHERE maKhoi = ? "
                 + "GROUP BY thi_sinh.maThiSinh, hoTen, ngaySinh, gioiTinh, CMND, danToc, soDienThoai, queQuan "
                 + "HAVING SUM(diem) >= ?";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
 
-            ps.setInt(1, maKhoi);
-            ps.setString(2, totalScore);
+            ps.setString(1, maKhoi);
+            ps.setFloat(2, totalScore);
 
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {

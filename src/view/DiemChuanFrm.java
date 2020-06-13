@@ -1,30 +1,30 @@
 package view;
 
-import controller.NganhThiDAO;
+import controller.DiemChuanDAO;
+import entity.DiemChuan;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import entity.NganhThi;
 
 /**
  *
  * @author tungdd
  */
-public class NganhThiFrm extends javax.swing.JFrame {
+public class DiemChuanFrm extends javax.swing.JFrame {
 
-    private final String[] header = {"STT", "Mã ngành", "Tên ngành"};
-    private ArrayList<NganhThi> items = new ArrayList<>();
+    private final String[] header = {"STT", "Mã ngành", "Điểm chuẩn", "Chỉ tiêu", "Năm thi", "Khối thi"};
+    private ArrayList<DiemChuan> items = new ArrayList<>();
     private int selectedIndex;
     DefaultTableModel model;
 
     /**
      * Creates new form ThiSinhFrm
      */
-    public NganhThiFrm() {
+    public DiemChuanFrm() {
         initComponents();
         setLocationRelativeTo(null);
 
-        model = (DefaultTableModel) tblNganhThi.getModel();
+        model = (DefaultTableModel) tblDiemTuyenSinh.getModel();
         model.setColumnIdentifiers(header);
         showTable();
     }
@@ -33,11 +33,11 @@ public class NganhThiFrm extends javax.swing.JFrame {
      * Hiển thị danh sách dữ liệu
      */
     public void showTable() {
-        items = new NganhThiDAO().getListItem();
+        items = new DiemChuanDAO().getListItem();
         model.setRowCount(0);
-        for (NganhThi ts : items) {
+        for (DiemChuan item : items) {
             model.addRow(new Object[]{
-                model.getRowCount() + 1, ts.getMaNganh(), ts.getTenNganh()
+                model.getRowCount() + 1, item.getMaNganh(), item.getDiemChuan(), item.getChiTieu(), item.getNamThi(), item.getTenKhoi()
             });
         }
     }
@@ -58,14 +58,14 @@ public class NganhThiFrm extends javax.swing.JFrame {
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblNganhThi = new javax.swing.JTable();
+        tblDiemTuyenSinh = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Quản lý ngành thi");
+        setTitle("Quản lý điểm chuẩn các ngành");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Quản lý ngành thi");
+        jLabel1.setText("Quản lý điểm chuẩn các ngành");
 
         btnBackHome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnBackHome.setText("Quay lại");
@@ -101,8 +101,8 @@ public class NganhThiFrm extends javax.swing.JFrame {
             }
         });
 
-        tblNganhThi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        tblNganhThi.setModel(new javax.swing.table.DefaultTableModel(
+        tblDiemTuyenSinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tblDiemTuyenSinh.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -110,12 +110,12 @@ public class NganhThiFrm extends javax.swing.JFrame {
 
             }
         ));
-        tblNganhThi.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblDiemTuyenSinh.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblNganhThiMouseClicked(evt);
+                tblDiemTuyenSinhMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblNganhThi);
+        jScrollPane1.setViewportView(tblDiemTuyenSinh);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -188,7 +188,7 @@ public class NganhThiFrm extends javax.swing.JFrame {
      * @param evt
      */
     private void btnAddNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddNewActionPerformed
-        NganhThiFormFrm form = new NganhThiFormFrm(this, rootPaneCheckingEnabled);
+        DiemChuanFormFrm form = new DiemChuanFormFrm(this, rootPaneCheckingEnabled);
         form.setVisible(true);
     }//GEN-LAST:event_btnAddNewActionPerformed
 
@@ -198,7 +198,7 @@ public class NganhThiFrm extends javax.swing.JFrame {
      * @param evt
      */
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        NganhThiFormFrm form = new NganhThiFormFrm(this, rootPaneCheckingEnabled);
+        DiemChuanFormFrm form = new DiemChuanFormFrm(this, rootPaneCheckingEnabled);
         form.getSelectedItem(true, items.get(selectedIndex));
         form.setVisible(true);
     }//GEN-LAST:event_btnUpdateActionPerformed
@@ -208,8 +208,8 @@ public class NganhThiFrm extends javax.swing.JFrame {
      *
      * @param evt
      */
-    private void tblNganhThiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNganhThiMouseClicked
-        selectedIndex = tblNganhThi.getSelectedRow();
+    private void tblDiemTuyenSinhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDiemTuyenSinhMouseClicked
+        selectedIndex = tblDiemTuyenSinh.getSelectedRow();
 
         if (selectedIndex > -1) {
             btnUpdate.setEnabled(true);
@@ -221,7 +221,7 @@ public class NganhThiFrm extends javax.swing.JFrame {
             btnAddNew.setEnabled(true);
         }
 
-    }//GEN-LAST:event_tblNganhThiMouseClicked
+    }//GEN-LAST:event_tblDiemTuyenSinhMouseClicked
 
     /**
      * Sự kiện xoá phần tử
@@ -230,9 +230,9 @@ public class NganhThiFrm extends javax.swing.JFrame {
      */
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         int isDelete = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xoá?");
-
+        
         if (isDelete == 0) {
-            if (new NganhThiDAO().deleteItem(items.get(selectedIndex))) {
+            if (new DiemChuanDAO().deleteItem(items.get(selectedIndex))) {
                 items.remove(selectedIndex);
                 JOptionPane.showMessageDialog(this, "Xoá thành công!");
                 showTable();
@@ -240,7 +240,6 @@ public class NganhThiFrm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Có lỗi xảy ra!");
             }
         }
-
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
@@ -260,21 +259,27 @@ public class NganhThiFrm extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NganhThiFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DiemChuanFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NganhThiFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DiemChuanFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NganhThiFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DiemChuanFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NganhThiFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DiemChuanFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NganhThiFrm().setVisible(true);
+                new DiemChuanFrm().setVisible(true);
             }
         });
     }
@@ -287,6 +292,6 @@ public class NganhThiFrm extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblNganhThi;
+    private javax.swing.JTable tblDiemTuyenSinh;
     // End of variables declaration//GEN-END:variables
 }
