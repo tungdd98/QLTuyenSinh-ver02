@@ -1,7 +1,10 @@
 package view;
 
 import controller.DiemTuyenSinhDAO;
+import controller.MonThiDAO;
 import entity.DiemTuyenSinh;
+import entity.MonThi;
+import helper.Validator;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -10,22 +13,74 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author tungdd
  */
-public class DiemTuyenSinhFrm extends javax.swing.JFrame {
+public class DiemTuyenSinhFrm extends javax.swing.JDialog {
 
-    private final String[] header = {"STT", "Mã ngành", "Điểm chuẩn", "Chỉ tiêu", "Năm thi", "Khối thi"};
-    private ArrayList<DiemTuyenSinh> items = new ArrayList<>();
+    private final ThiSinhFrm home;
+    private ArrayList<MonThi> listMonThi = new ArrayList<>();
+    private ArrayList<DiemTuyenSinh> listDiemThi = new ArrayList<>();
+    private String[] listTenMonThi;
+    private String maThiSinh = null;
+    private final String[] header = {"STT", "Tên môn", "Điểm thi"};
+    private DefaultTableModel model;
     private int selectedIndex;
-    DefaultTableModel model;
 
     /**
-     * Creates new form ThiSinhFrm
+     * Creates new form DiemThiFrm
      */
-    public DiemTuyenSinhFrm() {
+    public DiemTuyenSinhFrm(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
+        home = (ThiSinhFrm) parent;
+        listMonThi = new MonThiDAO().getListItem();
+        setMonThi();
 
-        model = (DefaultTableModel) tblDiemTuyenSinh.getModel();
+        model = (DefaultTableModel) tblDiemThi.getModel();
         model.setColumnIdentifiers(header);
+
+    }
+
+    /**
+     * Thêm mới vào arraylist
+     *
+     * @param ts
+     */
+    public void addItem(DiemTuyenSinh item) {
+        listDiemThi.add(item);
+        showTable();
+    }
+
+    /**
+     * Cập nhật vào arraylist
+     *
+     * @param ts
+     */
+    public void updateItem(DiemTuyenSinh item) {
+        listDiemThi.remove(selectedIndex);
+        listDiemThi.add(item);
+        showTable();
+    }
+
+    /**
+     * Thiết lập combobox các môn thi
+     */
+    public void setMonThi() {
+        int size = listMonThi.size();
+        listTenMonThi = new String[size];
+
+        for (int i = 0; i < size; i++) {
+            listTenMonThi[i] = listMonThi.get(i).getTenMon();
+        }
+        cbMonThi.setModel(new javax.swing.DefaultComboBoxModel(listTenMonThi));
+    }
+
+    /**
+     * Lấy dữ liệu để hiển thị
+     * @param mts 
+     */
+    public void setData(String mts) {
+        maThiSinh = mts;
+        listDiemThi = new DiemTuyenSinhDAO().getListItem(maThiSinh);
         showTable();
     }
 
@@ -33,12 +88,57 @@ public class DiemTuyenSinhFrm extends javax.swing.JFrame {
      * Hiển thị danh sách dữ liệu
      */
     public void showTable() {
-        items = new DiemTuyenSinhDAO().getListItem();
         model.setRowCount(0);
-        for (DiemTuyenSinh item : items) {
+        for (DiemTuyenSinh item : listDiemThi) {
             model.addRow(new Object[]{
-                model.getRowCount() + 1, item.getMaNganh(), item.getDiemChuan(), item.getChiTieu(), item.getNamThi(), item.getTenKhoi()
+                model.getRowCount() + 1, item.getTenMon(), item.getDiem()
             });
+        }
+    }
+
+    /**
+     * Reset form
+     */
+    public void resetForm() {
+        txtDiemThi.setText("");
+        cbMonThi.setSelectedIndex(0);
+        cbMonThi.setEnabled(true);
+        btnAdd.setEnabled(true);
+        btnUpdate.setEnabled(false);
+        btnDelete.setEnabled(false);
+    }
+
+    public void submit(boolean isEdit) {
+        boolean isSuccess = true;
+        String tenMonThi, maMonThi;
+        Validator diemThi = new Validator(txtDiemThi.getText(), new String[]{"required", "isScore"}, "Điểm thi");
+
+        if (!diemThi.setTextField(home)) {
+            isSuccess = false;
+        }
+        if (isSuccess) {
+            int index = cbMonThi.getSelectedIndex();
+            maMonThi = listMonThi.get(index).getMaMon();
+            tenMonThi = listTenMonThi[index];
+            DiemTuyenSinh item = new DiemTuyenSinh(maThiSinh, maMonThi, Float.parseFloat(diemThi.getText()), tenMonThi);
+            
+            if (!isEdit) {
+                if (new DiemTuyenSinhDAO().addItem(item)) {
+                    JOptionPane.showMessageDialog(this, "Thêm mới thành công");
+                    addItem(item);
+                    resetForm();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Môn thi đã có điểm");
+                }
+            } else {
+                if (new DiemTuyenSinhDAO().updateItem(item)) {
+                    JOptionPane.showMessageDialog(this, "Cập nhật thành công");
+                    updateItem(item);
+                    resetForm();
+                } else {
+                    JOptionPane.showMessageDialog(this, "Môn thi đã có điểm");
+                }
+            }
         }
     }
 
@@ -51,35 +151,40 @@ public class DiemTuyenSinhFrm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        btnBackHome = new javax.swing.JButton();
-        btnAddNew = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        cbMonThi = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        txtDiemThi = new javax.swing.JTextField();
+        btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblDiemTuyenSinh = new javax.swing.JTable();
+        tblDiemThi = new javax.swing.JTable();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Quản lý điểm tuyển sinh");
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setTitle("Điểm thi thí sinh");
+        setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Quản lý điểm tuyển sinh");
+        jLabel1.setText("Điểm thi thí sinh");
 
-        btnBackHome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnBackHome.setText("Quay lại");
-        btnBackHome.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBackHomeActionPerformed(evt);
-            }
-        });
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setText("Môn thi");
 
-        btnAddNew.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnAddNew.setText("Thêm mới");
-        btnAddNew.addActionListener(new java.awt.event.ActionListener() {
+        cbMonThi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setText("Điểm thi");
+
+        txtDiemThi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        btnAdd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnAdd.setText("Thêm ");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAddNewActionPerformed(evt);
+                btnAddActionPerformed(evt);
             }
         });
 
@@ -93,7 +198,7 @@ public class DiemTuyenSinhFrm extends javax.swing.JFrame {
         });
 
         btnDelete.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnDelete.setText("Xoá");
+        btnDelete.setText("Xóa");
         btnDelete.setEnabled(false);
         btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,8 +206,8 @@ public class DiemTuyenSinhFrm extends javax.swing.JFrame {
             }
         });
 
-        tblDiemTuyenSinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        tblDiemTuyenSinh.setModel(new javax.swing.table.DefaultTableModel(
+        tblDiemThi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tblDiemThi.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -110,131 +215,99 @@ public class DiemTuyenSinhFrm extends javax.swing.JFrame {
 
             }
         ));
-        tblDiemTuyenSinh.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblDiemThi.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblDiemTuyenSinhMouseClicked(evt);
+                tblDiemThiMouseClicked(evt);
             }
         });
-        jScrollPane1.setViewportView(tblDiemTuyenSinh);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnBackHome, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(120, 120, 120)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnAddNew, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(20, 20, 20))))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnBackHome, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnAddNew, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE))
-        );
-
-        btnBackHome.getAccessibleContext().setAccessibleName("Về trang chủ");
+        jScrollPane1.setViewportView(tblDiemThi);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 503, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(98, 98, 98)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 251, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(txtDiemThi))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(cbMonThi, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbMonThi, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtDiemThi, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * Sự kiện trở về trang chủ
-     *
-     * @param evt
-     */
-    private void btnBackHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackHomeActionPerformed
-        new DhCnhnFrm().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnBackHomeActionPerformed
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        submit(false);
+    }//GEN-LAST:event_btnAddActionPerformed
 
-    /**
-     * Sự kiện thêm mới
-     *
-     * @param evt
-     */
-    private void btnAddNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddNewActionPerformed
-        DiemTuyenSinhFormFrm form = new DiemTuyenSinhFormFrm(this, rootPaneCheckingEnabled);
-        form.setVisible(true);
-    }//GEN-LAST:event_btnAddNewActionPerformed
-
-    /**
-     * Sự kiện cập nhật
-     *
-     * @param evt
-     */
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        DiemTuyenSinhFormFrm form = new DiemTuyenSinhFormFrm(this, rootPaneCheckingEnabled);
-        form.getSelectedItem(true, items.get(selectedIndex));
-        form.setVisible(true);
-    }//GEN-LAST:event_btnUpdateActionPerformed
-
-    /**
-     * Sự kiện hiển thị dữ liệu khi bấm vào hàng trong bảng
-     *
-     * @param evt
-     */
-    private void tblDiemTuyenSinhMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDiemTuyenSinhMouseClicked
-        selectedIndex = tblDiemTuyenSinh.getSelectedRow();
+    private void tblDiemThiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDiemThiMouseClicked
+        selectedIndex = tblDiemThi.getSelectedRow();
 
         if (selectedIndex > -1) {
+            DiemTuyenSinh item = listDiemThi.get(selectedIndex);
+
+            cbMonThi.setEnabled(false);
             btnUpdate.setEnabled(true);
             btnDelete.setEnabled(true);
-            btnAddNew.setEnabled(false);
+            btnAdd.setEnabled(false);
+            txtDiemThi.setText("" + item.getDiem());
+            cbMonThi.setSelectedItem(item.getTenMon());
+            cbMonThi.setEnabled(false);
         } else {
-            btnUpdate.setEnabled(false);
-            btnDelete.setEnabled(false);
-            btnAddNew.setEnabled(true);
+            resetForm();
         }
+    }//GEN-LAST:event_tblDiemThiMouseClicked
 
-    }//GEN-LAST:event_tblDiemTuyenSinhMouseClicked
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        submit(true);
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
-    /**
-     * Sự kiện xoá phần tử
-     *
-     * @param evt
-     */
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        int isDelete = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xoá?");
+        int isDelete = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xoá điểm thi môn này?");
         
         if (isDelete == 0) {
-            if (new DiemTuyenSinhDAO().deleteItem(items.get(selectedIndex))) {
-                items.remove(selectedIndex);
-                JOptionPane.showMessageDialog(this, "Xoá thành công!");
+            if (new DiemTuyenSinhDAO().deleteItem(listDiemThi.get(selectedIndex))) {
+                listDiemThi.remove(selectedIndex);
                 showTable();
             } else {
                 JOptionPane.showMessageDialog(this, "Có lỗi xảy ra!");
@@ -269,25 +342,32 @@ public class DiemTuyenSinhFrm extends javax.swing.JFrame {
         }
         //</editor-fold>
         //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new DiemTuyenSinhFrm().setVisible(true);
+                DiemTuyenSinhFrm dialog = new DiemTuyenSinhFrm(new javax.swing.JFrame(), true);
+                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosing(java.awt.event.WindowEvent e) {
+                        System.exit(0);
+                    }
+                });
+                dialog.setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAddNew;
-    private javax.swing.JButton btnBackHome;
+    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JComboBox<String> cbMonThi;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tblDiemTuyenSinh;
+    private javax.swing.JTable tblDiemThi;
+    private javax.swing.JTextField txtDiemThi;
     // End of variables declaration//GEN-END:variables
 }

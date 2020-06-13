@@ -1,9 +1,9 @@
 package view;
 
-import controller.DiemTuyenSinhDAO;
+import controller.DiemChuanDAO;
 import controller.KhoiThiDAO;
 import controller.NganhThiDAO;
-import entity.DiemTuyenSinh;
+import entity.DiemChuan;
 import entity.KhoiThi;
 import entity.NganhThi;
 import helper.Validator;
@@ -14,9 +14,9 @@ import javax.swing.JOptionPane;
  *
  * @author tuanndm
  */
-public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
+public class DiemChuanFormFrm extends javax.swing.JDialog {
 
-    private final DiemTuyenSinhFrm home;
+    private final DiemChuanFrm home;
     private boolean isEdit = false;
     private ArrayList<NganhThi> listNganhThi = new ArrayList<>();
     private String[] listTenNganhThi;
@@ -27,12 +27,12 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
     /**
      * Creates new form ThiSinhFormFrm
      */
-    public DiemTuyenSinhFormFrm(java.awt.Frame parent, boolean modal) {
+    public DiemChuanFormFrm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
 
-        home = (DiemTuyenSinhFrm) parent;
+        home = (DiemChuanFrm) parent;
         listNganhThi = new NganhThiDAO().getListItem();
         setListTenNganhThi();
         listKhoiThi = new KhoiThiDAO().getListItem();
@@ -72,7 +72,7 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
      * @param edit
      * @param ts
      */
-    public void getSelectedItem(boolean edit, DiemTuyenSinh item) {
+    public void getSelectedItem(boolean edit, DiemChuan item) {
         isEdit = edit;
         int index = 0;
 
@@ -115,7 +115,7 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
         cbKhoiThi = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Thông tin điểm tuyển sinh");
+        setTitle("Thông tin điểm chuẩn");
 
         lbHoTen.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbHoTen.setText("Điểm chuẩn");
@@ -131,7 +131,7 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
         });
 
         btnClose.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnClose.setText("Đóng");
+        btnClose.setText("Huỷ bỏ");
         btnClose.setToolTipText("");
         btnClose.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -141,7 +141,7 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
 
         jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("Thông tin điểm tuyển sinh");
+        jLabel9.setText("Thông tin điểm chuẩn");
 
         lbHoTen1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         lbHoTen1.setText("Chỉ tiêu");
@@ -246,8 +246,7 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
     private void btnSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveActionPerformed
         boolean isSuccess = true;
         ArrayList<Validator> data = new ArrayList<>();
-        String maNganh;
-        int maKhoi;
+        String maNganh, maKhoi;
         Validator diemChuan = new Validator(txtDiemChuan.getText(), new String[]{"required", "isDecimal"}, "Điểm chuẩn"),
                 chiTieu = new Validator(txtChiTieu.getText(), new String[]{"required", "isInteger"}, "Chỉ tiêu"),
                 namThi = new Validator(txtNamThi.getText(), new String[]{"required", "isInteger"}, "Năm thi");
@@ -267,10 +266,10 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
             int indexMaKhoi = cbKhoiThi.getSelectedIndex();
             maNganh = listNganhThi.get(indexMaNganh).getMaNganh();
             maKhoi = listKhoiThi.get(indexMaKhoi).getMaKhoi();
-            DiemTuyenSinh item = new DiemTuyenSinh(maNganh, diemChuan.getText(), chiTieu.getText(), namThi.getText(), maKhoi, cbKhoiThi.getSelectedItem().toString());
+            DiemChuan item = new DiemChuan(maNganh, Float.parseFloat(diemChuan.getText()), Integer.parseInt(chiTieu.getText()), namThi.getText(), maKhoi, cbKhoiThi.getSelectedItem().toString());
             
             if (!isEdit) {
-                if (new DiemTuyenSinhDAO().addItem(item)) {
+                if (new DiemChuanDAO().addItem(item)) {
                     home.showTable();
                     JOptionPane.showMessageDialog(this, "Thêm mới thành công!");
                     this.dispose();
@@ -278,7 +277,7 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "Điểm chuẩn năm này đã tồn tại!");
                 }
             } else {
-                if (new DiemTuyenSinhDAO().updateItem(item)) {
+                if (new DiemChuanDAO().updateItem(item)) {
                     home.showTable();
                     JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
                     this.dispose();
@@ -315,14 +314,18 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DiemTuyenSinhFormFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DiemChuanFormFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DiemTuyenSinhFormFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DiemChuanFormFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DiemTuyenSinhFormFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DiemChuanFormFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DiemTuyenSinhFormFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(DiemChuanFormFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -331,7 +334,7 @@ public class DiemTuyenSinhFormFrm extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                DiemTuyenSinhFormFrm dialog = new DiemTuyenSinhFormFrm(new javax.swing.JFrame(), true);
+                DiemChuanFormFrm dialog = new DiemChuanFormFrm(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {

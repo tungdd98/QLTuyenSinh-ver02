@@ -1,48 +1,38 @@
 package view;
 
 import controller.DiemChuanDAO;
-import controller.KhoiThiDAO;
 import controller.NganhThiDAO;
-import controller.ThiSinhDAO;
 import entity.DiemChuan;
-import entity.KhoiThi;
 import entity.NganhThi;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import entity.ThiSinh;
-import java.text.SimpleDateFormat;
 
 /**
  *
  * @author tungdd
  */
-public class BaoCaoFrm extends javax.swing.JFrame {
+public class TraCuuDiemChuanFrm extends javax.swing.JFrame {
 
-    private final String[] header = {"STT", "Mã thí sinh", "Họ tên", "Ngày sinh", "Giới tính", "CMND", "Dân tộc", "Số điện thoại", "Quê quán"};
-    private ArrayList<ThiSinh> items = new ArrayList<>();
+    private final String[] header = {"STT", "Mã ngành", "Chỉ tiêu", "Điểm chuẩn", "Khối thi"};
     private DefaultTableModel model;
     private ArrayList<NganhThi> listNganhThi = new ArrayList<>();
     private String[] listTenNganhThi;
-    private ArrayList<KhoiThi> listKhoiThi = new ArrayList<>();
-    private String[] listTenKhoiThi;
     private ArrayList<String> listNamThi;
-    private DiemChuan diemChuan;
+    private ArrayList<DiemChuan> listDiemTuyenSinh = new ArrayList<>();
 
     /**
      * Creates new form ThiSinhFrm
      */
-    public BaoCaoFrm() {
+    public TraCuuDiemChuanFrm() {
         initComponents();
         setLocationRelativeTo(null);
 
-        model = (DefaultTableModel) tblThiSinh.getModel();
+        model = (DefaultTableModel) tblDiemTuyenSinh.getModel();
         model.setColumnIdentifiers(header);
 
         listNganhThi = new NganhThiDAO().getListItem();
         setListTenNganhThi();
-        listKhoiThi = new KhoiThiDAO().getListItem();
-        setListTenKhoiThi();
         listNamThi = new DiemChuanDAO().getListYear();
         setListNamThi();
     }
@@ -61,19 +51,6 @@ public class BaoCaoFrm extends javax.swing.JFrame {
     }
 
     /**
-     * Lấy dữ liệu vào ô combobox khối thi
-     */
-    public void setListTenKhoiThi() {
-        int size = listKhoiThi.size();
-        listTenKhoiThi = new String[size];
-
-        for (int i = 0; i < size; i++) {
-            listTenKhoiThi[i] = listKhoiThi.get(i).getTenKhoi();
-        }
-        cbKhoiThi.setModel(new javax.swing.DefaultComboBoxModel(listTenKhoiThi));
-    }
-
-    /**
      * Lấy dữ liệu vào ô combobox năm thi
      */
     public void setListNamThi() {
@@ -87,17 +64,11 @@ public class BaoCaoFrm extends javax.swing.JFrame {
      */
     public void showTable() {
         model.setRowCount(0);
-        for (ThiSinh item : items) {
+        for (DiemChuan item : listDiemTuyenSinh) {
             model.addRow(new Object[]{
-                model.getRowCount() + 1, item.getMaThiSinh(), item.getHoTen(), new SimpleDateFormat("dd/MM/yyyy").format(item.getNgaySinh()), item.getGioiTinh() == 1 ? "Nam" : "Nữ", item.getCMND(), item.getDanToc(), item.getSoDienThoai(), item.getQueQuan()
+                model.getRowCount() + 1, item.getMaNganh(), item.getChiTieu(), item.getDiemChuan(), item.getTenKhoi()
             });
         }
-    }
-
-    public void setDataLabel() {
-        lbChiTieu.setText("Chỉ tiêu: " + diemChuan.getChiTieu());
-        lbDiemChuan.setText("Điểm chuẩn: " + diemChuan.getDiemChuan());
-        lbChiTieuConThieu.setText("Chỉ tiêu còn thiếu: " + (diemChuan.getChiTieu() - tblThiSinh.getRowCount()));
     }
 
     /**
@@ -114,20 +85,16 @@ public class BaoCaoFrm extends javax.swing.JFrame {
         btnBackHome = new javax.swing.JButton();
         cbTenNganh = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblThiSinh = new javax.swing.JTable();
-        cbKhoiThi = new javax.swing.JComboBox<>();
+        tblDiemTuyenSinh = new javax.swing.JTable();
         btnSearch = new javax.swing.JButton();
-        lbChiTieuConThieu = new javax.swing.JLabel();
-        lbDiemChuan = new javax.swing.JLabel();
-        lbChiTieu = new javax.swing.JLabel();
         cbNamThi = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Báo cáo kết quả");
+        setTitle("Tra cứu điểm chuẩn ngành thi");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Báo cáo kết quả");
+        jLabel1.setText("Tra cứu điểm chuẩn ngành thi");
         jLabel1.setToolTipText("");
 
         btnBackHome.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -140,8 +107,8 @@ public class BaoCaoFrm extends javax.swing.JFrame {
 
         cbTenNganh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
-        tblThiSinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        tblThiSinh.setModel(new javax.swing.table.DefaultTableModel(
+        tblDiemTuyenSinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tblDiemTuyenSinh.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -149,9 +116,7 @@ public class BaoCaoFrm extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane1.setViewportView(tblThiSinh);
-
-        cbKhoiThi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jScrollPane1.setViewportView(tblDiemTuyenSinh);
 
         btnSearch.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnSearch.setText("Tìm kiếm");
@@ -160,18 +125,6 @@ public class BaoCaoFrm extends javax.swing.JFrame {
                 btnSearchActionPerformed(evt);
             }
         });
-
-        lbChiTieuConThieu.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
-        lbChiTieuConThieu.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lbChiTieuConThieu.setText("Chỉ tiêu còn còn thiếu: 0");
-
-        lbDiemChuan.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
-        lbDiemChuan.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lbDiemChuan.setText("Điểm chuẩn: 0");
-
-        lbChiTieu.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
-        lbChiTieu.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
-        lbChiTieu.setText("Chỉ tiêu: 0");
 
         cbNamThi.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
@@ -188,27 +141,14 @@ public class BaoCaoFrm extends javax.swing.JFrame {
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 342, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(cbTenNganh, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnSearch, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(cbKhoiThi, 0, 118, Short.MAX_VALUE))
+                        .addGap(0, 196, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cbTenNganh, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cbNamThi, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(237, 237, 237))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(164, 164, 164)
-                        .addComponent(lbChiTieu, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(28, 28, 28)
-                        .addComponent(lbDiemChuan, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lbChiTieuConThieu, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(172, 172, 172))))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 800, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 7, Short.MAX_VALUE))
+                        .addGap(237, 237, 237))))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -219,18 +159,12 @@ public class BaoCaoFrm extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbTenNganh, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbKhoiThi, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbNamThi, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lbChiTieu, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbDiemChuan, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbChiTieuConThieu, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 247, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(64, 64, 64))
         );
 
         btnBackHome.getAccessibleContext().setAccessibleName("Về trang chủ");
@@ -248,22 +182,12 @@ public class BaoCaoFrm extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 498, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 391, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    /**
-     * Sự kiện trở về trang chủ
-     *
-     * @param evt
-     */
-    private void btnBackHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackHomeActionPerformed
-        new BanTuyenSinhFrm().setVisible(true);
-        this.dispose();
-    }//GEN-LAST:event_btnBackHomeActionPerformed
 
     /**
      * Sự kiện tìm kiếm
@@ -273,25 +197,26 @@ public class BaoCaoFrm extends javax.swing.JFrame {
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
         int indexMaNganh = cbTenNganh.getSelectedIndex();
         String maNganh = listNganhThi.get(indexMaNganh).getMaNganh();
-        int indexMaKhoi = cbKhoiThi.getSelectedIndex();
-        String maKhoi = listKhoiThi.get(indexMaKhoi).getMaKhoi();
         String namThi = cbNamThi.getSelectedItem().toString();
+        listDiemTuyenSinh = new DiemChuanDAO().getListItemByCode(maNganh, namThi);
         
-        diemChuan = new DiemChuanDAO().getItemByCode(maNganh, maKhoi, namThi);
-        if (diemChuan.getMaNganh() != null) {
-            items = new ThiSinhDAO().getResultScore(diemChuan.getDiemChuan(), maKhoi);
-            if(items.size() > 0) {
-                showTable();
-            } else {
-                JOptionPane.showMessageDialog(this, "Danh sách thí sinh rỗng");
-                model.setRowCount(0);
-            }
-            setDataLabel();
+        if(listDiemTuyenSinh.size() > 0) {
+            showTable();
         } else {
-            JOptionPane.showMessageDialog(this, "Không tìm thấy kết quả");
             model.setRowCount(0);
+            JOptionPane.showMessageDialog(rootPane, "Không tìm thấy kết quả");
         }
     }//GEN-LAST:event_btnSearchActionPerformed
+
+    /**
+     * Sự kiện trở về trang chủ
+     *
+     * @param evt
+     */
+    private void btnBackHomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBackHomeActionPerformed
+        new TrangChuFrm().setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btnBackHomeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -310,21 +235,19 @@ public class BaoCaoFrm extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(BaoCaoFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TraCuuDiemChuanFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(BaoCaoFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TraCuuDiemChuanFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(BaoCaoFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TraCuuDiemChuanFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(BaoCaoFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TraCuuDiemChuanFrm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new BaoCaoFrm().setVisible(true);
+                new TraCuuDiemChuanFrm().setVisible(true);
             }
         });
     }
@@ -332,15 +255,11 @@ public class BaoCaoFrm extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBackHome;
     private javax.swing.JButton btnSearch;
-    private javax.swing.JComboBox<String> cbKhoiThi;
     private javax.swing.JComboBox<String> cbNamThi;
     private javax.swing.JComboBox<String> cbTenNganh;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel lbChiTieu;
-    private javax.swing.JLabel lbChiTieuConThieu;
-    private javax.swing.JLabel lbDiemChuan;
-    private javax.swing.JTable tblThiSinh;
+    private javax.swing.JTable tblDiemTuyenSinh;
     // End of variables declaration//GEN-END:variables
 }

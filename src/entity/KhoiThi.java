@@ -5,14 +5,14 @@ package entity;
  * @author tungdd
  */
 public class KhoiThi {
-    private int maKhoi;
+    private String maKhoi;
     private String tenKhoi;
 
-    public int getMaKhoi() {
+    public String getMaKhoi() {
         return maKhoi;
     }
 
-    public void setMaKhoi(int maKhoi) {
+    public void setMaKhoi(String maKhoi) {
         this.maKhoi = maKhoi;
     }
 
@@ -24,7 +24,7 @@ public class KhoiThi {
         this.tenKhoi = tenKhoi;
     }
 
-    public KhoiThi(int maKhoi, String tenKhoi) {
+    public KhoiThi(String maKhoi, String tenKhoi) {
         this.maKhoi = maKhoi;
         this.tenKhoi = tenKhoi;
     }

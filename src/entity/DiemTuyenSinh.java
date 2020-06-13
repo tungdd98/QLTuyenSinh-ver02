@@ -1,75 +1,63 @@
 package entity;
 
 /**
+ * Quản lý điểm thi của thí sinh
  *
  * @author tungdd
  */
 public class DiemTuyenSinh {
 
-    private String maNganh;
-    private String diemChuan;
-    private String chiTieu;
-    private String namThi;
-    private int khoiThi_id;
-    private String tenKhoi;
-
-    public DiemTuyenSinh(String maNganh, String diemChuan, String chiTieu, String namThi, int khoiThi_id, String tenKhoi) {
-        this.maNganh = maNganh;
-        this.diemChuan = diemChuan;
-        this.chiTieu = chiTieu;
-        this.namThi = namThi;
-        this.khoiThi_id = khoiThi_id;
-        this.tenKhoi = tenKhoi;
-    }
+    private String maThiSinh;
+    private String maMon;
+    private float diem;
+    private String tenMon;
 
     public DiemTuyenSinh() {
     }
 
-    public String getMaNganh() {
-        return maNganh;
+    public DiemTuyenSinh(String maThiSinh, String maMon, float diem) {
+        this.maThiSinh = maThiSinh;
+        this.maMon = maMon;
+        this.diem = diem;
     }
 
-    public void setMaNganh(String maNganh) {
-        this.maNganh = maNganh;
+    public DiemTuyenSinh(String maThiSinh, String maMon, float diem, String tenMon) {
+        this.maThiSinh = maThiSinh;
+        this.maMon = maMon;
+        this.diem = diem;
+        this.tenMon = tenMon;
     }
 
-    public String getDiemChuan() {
-        return diemChuan;
+    public String getMaThiSinh() {
+        return maThiSinh;
     }
 
-    public void setDiemChuan(String diemChuan) {
-        this.diemChuan = diemChuan;
+    public void setMaThiSinh(String maThiSinh) {
+        this.maThiSinh = maThiSinh;
     }
 
-    public String getChiTieu() {
-        return chiTieu;
+    public String getMaMon() {
+        return maMon;
     }
 
-    public void setChiTieu(String chiTieu) {
-        this.chiTieu = chiTieu;
+    public void setMaMon(String maMon) {
+        this.maMon = maMon;
     }
 
-    public String getNamThi() {
-        return namThi;
+    public float getDiem() {
+        return diem;
     }
 
-    public void setNamThi(String namThi) {
-        this.namThi = namThi;
+    public void setDiem(float diem) {
+        this.diem = diem;
     }
 
-    public int getKhoiThi_id() {
-        return khoiThi_id;
+    public String getTenMon() {
+        return tenMon;
     }
 
-    public void setKhoiThi_id(int khoiThi_id) {
-        this.khoiThi_id = khoiThi_id;
+    public void setTenMon(String tenMon) {
+        this.tenMon = tenMon;
     }
 
-    public String getTenKhoi() {
-        return tenKhoi;
-    }
-
-    public void setTenKhoi(String tenKhoi) {
-        this.tenKhoi = tenKhoi;
-    }
 }

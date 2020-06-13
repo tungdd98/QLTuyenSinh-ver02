@@ -29,7 +29,7 @@ public class KhoiThiDAO extends DAO {
             while (rs.next()) {
                 KhoiThi item = new KhoiThi();
 
-                item.setMaKhoi(rs.getInt("maKhoi"));
+                item.setMaKhoi(rs.getString("maKhoi"));
                 item.setTenKhoi(rs.getString("tenKhoi"));
 
                 items.add(item);

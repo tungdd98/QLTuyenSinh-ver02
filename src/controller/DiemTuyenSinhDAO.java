@@ -1,34 +1,30 @@
 package controller;
 
-import entity.DiemTuyenSinh;
 import java.sql.*;
 import java.util.ArrayList;
+import entity.DiemTuyenSinh;
 
 /**
  *
- * @author tuanndm
+ * @author tungdd
  */
 public class DiemTuyenSinhDAO extends DAO {
 
-    private final String orderBy = "namThi, maNganh";
-    private final String orderDir = "DESC";
     private final String table = "diem_tuyen_sinh";
 
     public DiemTuyenSinhDAO() {
         super();
     }
 
-    public boolean addItem(DiemTuyenSinh item) {
-        String sql = "INSERT INTO " + table + "(maNganh, diemChuan, chiTieu, namThi, khoiThi_id) VALUES(?, ?, ?, ?, ?)";
+    public boolean updateItem(DiemTuyenSinh item) {
+        String sql = "UPDATE " + table + " SET diem = ? WHERE maThiSinh = ? AND maMon = ?";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
 
-            ps.setString(1, item.getMaNganh());
-            ps.setString(2, item.getDiemChuan());
-            ps.setString(3, item.getChiTieu());
-            ps.setString(4, item.getNamThi());
-            ps.setInt(5, item.getKhoiThi_id());
+            ps.setFloat(1, item.getDiem());
+            ps.setString(2, item.getMaThiSinh());
+            ps.setString(3, item.getMaMon());
 
             int isSuccess = ps.executeUpdate();
             ps.close();
@@ -37,20 +33,18 @@ public class DiemTuyenSinhDAO extends DAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return false;
     }
 
-    public boolean updateItem(DiemTuyenSinh item) {
-        String sql = "UPDATE " + table + " SET diemChuan = ?, chiTieu = ? WHERE maNganh = ? AND namThi = ? AND khoiThi_id = ?";
+    public boolean addItem(DiemTuyenSinh item) {
+        String sql = "INSERT INTO " + table + "(maThiSinh, maMon, diem) VALUES(?, ?, ?)";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, item.getDiemChuan());
-            ps.setString(2, item.getChiTieu());
-            ps.setString(3, item.getMaNganh());
-            ps.setString(4, item.getNamThi());
-            ps.setInt(5, item.getKhoiThi_id());
+
+            ps.setString(1, item.getMaThiSinh());
+            ps.setString(2, item.getMaMon());
+            ps.setFloat(3, item.getDiem());
 
             int isSuccess = ps.executeUpdate();
             ps.close();
@@ -59,18 +53,17 @@ public class DiemTuyenSinhDAO extends DAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return false;
     }
 
     public boolean deleteItem(DiemTuyenSinh item) {
-        String sql = "DELETE FROM " + table + " WHERE maNganh = ? AND namThi = ? AND khoiThi_id = ?";
+        String sql = "DELETE FROM " + table + " WHERE maThiSinh = ? AND maMon = ?";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, item.getMaNganh());
-            ps.setString(2, item.getNamThi());
-            ps.setInt(3, item.getKhoiThi_id());
+
+            ps.setString(1, item.getMaThiSinh());
+            ps.setString(2, item.getMaMon());
 
             int isSuccess = ps.executeUpdate();
             ps.close();
@@ -79,30 +72,29 @@ public class DiemTuyenSinhDAO extends DAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
         return false;
     }
 
-    public ArrayList<DiemTuyenSinh> getListItem() {
+    public ArrayList<DiemTuyenSinh> getListItem(String maThiSinh) {
         ArrayList<DiemTuyenSinh> items = new ArrayList<>();
-        String sql = "SELECT * FROM " + table + " INNER JOIN khoi_thi ON diem_tuyen_sinh.khoiThi_id = khoi_thi.maKhoi ORDER BY " + orderBy + " " + orderDir;
+        String sql = "SELECT * FROM " + table + " INNER JOIN mon_thi ON diem_tuyen_sinh.maMon = mon_thi.maMon WHERE maThiSinh = ?";
 
         try {
             PreparedStatement ps = conn.prepareStatement(sql);
+
+            ps.setString(1, maThiSinh);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
                 DiemTuyenSinh item = new DiemTuyenSinh();
-
-                item.setMaNganh(rs.getString("maNganh"));
-                item.setDiemChuan(rs.getString("diemChuan"));
-                item.setChiTieu(rs.getString("chiTieu"));
-                item.setNamThi(rs.getString("namThi"));
-                item.setKhoiThi_id(rs.getInt("khoiThi_id"));
-                item.setTenKhoi(rs.getString("tenKhoi"));
+                item.setMaThiSinh(rs.getString("maThiSinh"));
+                item.setMaMon(rs.getString("maMon"));
+                item.setDiem(rs.getFloat("diem"));
+                item.setTenMon(rs.getString("tenMon"));
 
                 items.add(item);
             }
+
             rs.close();
             ps.close();
             conn.close();
@@ -111,77 +103,47 @@ public class DiemTuyenSinhDAO extends DAO {
         }
         return items;
     }
-
-    public DiemTuyenSinh getItemByCode(String maNganh, int maKhoi, String namThi) {
-        DiemTuyenSinh item = new DiemTuyenSinh();
-        String sql = "SELECT * FROM " + table + " WHERE maNganh = ? AND khoiThi_id = ? AND namThi = ?";
-
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-
-            ps.setString(1, maNganh);
-            ps.setInt(2, maKhoi);
-            ps.setString(3, namThi);
-
-            ResultSet rs = ps.executeQuery();
-            if (rs.next()) {
-                item.setMaNganh(rs.getString("maNganh"));
-                item.setDiemChuan(rs.getString("diemChuan"));
-                item.setChiTieu(rs.getString("chiTieu"));
-                item.setNamThi(rs.getString("namThi"));
-                item.setKhoiThi_id(rs.getInt("khoiThi_id"));
-            }
-            rs.close();
-            ps.close();
-            conn.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return item;
-    }
     
-    public ArrayList<String> getListYear() {
-        ArrayList<String> items = new ArrayList<>();
-        String sql = "SELECT namThi FROM diem_tuyen_sinh GROUP BY namThi";
-        
-        try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-            
-            while(rs.next()) {
-                String item = rs.getString("namThi");
-                
-                items.add(item);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return items;
-    }
-    
-    public ArrayList<DiemTuyenSinh> getListItemByCode(String maNganh, String namThi) {
+    public ArrayList<DiemTuyenSinh> searchItem(String query, String maMon, String field) {
         ArrayList<DiemTuyenSinh> items = new ArrayList<>();
-        String sql = "SELECT maNganh, diemChuan, chiTieu, tenKhoi FROM " + table + " INNER JOIN khoi_thi ON diem_tuyen_sinh.khoiThi_id = khoi_thi.maKhoi "
-                + "WHERE maNganh = ? AND namThi = ?";
-        
+        String sql = "";
+        String bonusSql = "".equals(maMon) ? "" : " AND diem_tuyen_sinh.maMon = '" + maMon + "'";
+        switch (field) {
+            case "maThiSinh":
+                sql = "SELECT diem_tuyen_sinh.maThiSinh, diem_tuyen_sinh.maMon, diem, tenMon FROM " + table + " "
+                        + "INNER JOIN mon_thi ON diem_tuyen_sinh.maMon = mon_thi.maMon "
+                        + "WHERE diem_tuyen_sinh.maThiSinh = '" + query + "'" + bonusSql;
+                break;
+            case "CMND":
+                sql = "SELECT diem_tuyen_sinh.maThiSinh, diem_tuyen_sinh.maMon, tenMon, diem FROM " + table + " "
+                        + "INNER JOIN mon_thi ON diem_tuyen_sinh.maMon = mon_thi.maMon "
+                        + "INNER JOIN thi_sinh ON thi_sinh.maThiSinh = diem_tuyen_sinh.maThiSinh "
+                        + "WHERE thi_sinh.CMND = '" + query + "'" + bonusSql;
+                break;
+            case "hoTen":
+                sql = "SELECT diem_tuyen_sinh.maThiSinh, diem_tuyen_sinh.maMon, tenMon, diem FROM " + table + " "
+                        + "INNER JOIN mon_thi ON diem_tuyen_sinh.maMon = mon_thi.maMon "
+                        + "INNER JOIN thi_sinh ON thi_sinh.maThiSinh = diem_tuyen_sinh.maThiSinh "
+                        + "WHERE thi_sinh.hoTen LIKE '%" + query + "%'" + bonusSql;
+                break;
+        }
         try {
-            PreparedStatement ps = conn.prepareStatement(sql);
-            
-            ps.setString(1, maNganh);
-            ps.setString(2, namThi);
-            ResultSet rs = ps.executeQuery();
-            
-            while(rs.next()) {
+            Statement sm = conn.createStatement();
+            ResultSet rs = sm.executeQuery(sql);
+
+            while (rs.next()) {
                 DiemTuyenSinh item = new DiemTuyenSinh();
-                
-                item.setMaNganh(rs.getString("maNganh"));
-                item.setDiemChuan(rs.getString("diemChuan"));
-                item.setChiTieu(rs.getString("chiTieu"));
-                item.setTenKhoi(rs.getString("tenKhoi"));
-                
+
+                item.setMaThiSinh(rs.getString("maThiSinh"));
+                item.setTenMon(rs.getString("tenMon"));
+                item.setMaMon(rs.getString("maMon"));
+                item.setDiem(rs.getFloat("diem"));
+
                 items.add(item);
             }
+            rs.close();
+            sm.close();
+            conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }

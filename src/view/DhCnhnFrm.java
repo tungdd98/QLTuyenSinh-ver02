@@ -58,7 +58,7 @@ public class DhCnhnFrm extends javax.swing.JFrame {
         });
 
         btnQLDiemTuyenSinh.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnQLDiemTuyenSinh.setText("Quản lý điểm tuyển sinh");
+        btnQLDiemTuyenSinh.setText("Quản lý điểm chuẩn ngành thi");
         btnQLDiemTuyenSinh.setToolTipText("");
         btnQLDiemTuyenSinh.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -112,7 +112,7 @@ public class DhCnhnFrm extends javax.swing.JFrame {
     }//GEN-LAST:event_btnQLNganhThiActionPerformed
 
     private void btnQLDiemTuyenSinhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQLDiemTuyenSinhActionPerformed
-        new DiemTuyenSinhFrm().setVisible(true);
+        new DiemChuanFrm().setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnQLDiemTuyenSinhActionPerformed
 

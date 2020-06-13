@@ -206,7 +206,7 @@ public class ThiSinhFrm extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     /**
-     * Sự kiện trở về trang chủ
+     * Sự kiện trở về
      *
      * @param evt
      */
@@ -284,7 +284,7 @@ public class ThiSinhFrm extends javax.swing.JFrame {
      */
     private void btnScoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnScoreActionPerformed
         String maThiSinh = items.get(selectedIndex).getMaThiSinh();
-        DiemThiFrm form = new DiemThiFrm(this, rootPaneCheckingEnabled);
+        DiemTuyenSinhFrm form = new DiemTuyenSinhFrm(this, rootPaneCheckingEnabled);
         form.setData(maThiSinh);
         form.setVisible(true);
     }//GEN-LAST:event_btnScoreActionPerformed
